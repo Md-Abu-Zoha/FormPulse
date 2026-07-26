@@ -12,6 +12,7 @@ SmartFill is a powerful Chrome extension that instantly fills repetitive forms, 
 
 ### The UI
 ![SmartFill Popup](photos/popup.png)
+
 *The main extension popup interface.*
 
 ## Installation
@@ -25,7 +26,9 @@ SmartFill is a powerful Chrome extension that instantly fills repetitive forms, 
 
 Upon installation, SmartFill will automatically open the **User Manual**. This built-in manual contains everything you need to know about setting up your API keys, configuring your profile, and using the Memory Vault. 
 
-You can also access the manual at any time by right-clicking the extension icon and selecting **Options**.
+You can also view the manual source code directly in this repository: [User Manual (manual.html)](./manual.html)
+
+You can access the manual at any time by right-clicking the extension icon and selecting **Options**.
 
 ---
 *Built with care by ZOHA.*
