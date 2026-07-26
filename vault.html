@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>SmartFill Memory Vault</title>
+  <link rel="stylesheet" href="vault.css">
+</head>
+<body>
+  <div class="dashboard-container">
+    <header class="header">
+      <div class="header-left">
+        <svg viewBox="0 0 36 24" width="48" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 4 h11 v3.5 l-7 10 h7 v3.5 H2 v-3.5 l7 -10 H2 V4 z" fill="#0f172a"/>
+          <path d="M27 3h-6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V6l-3-3z" fill="#4f46e5"/>
+          <path d="M27 3v3h3" fill="#3730a3"/>
+          <line x1="22" y1="8" x2="26" y2="8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="22" y1="11" x2="24" y2="11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="24" y="21.5" font-family="Arial, sans-serif" font-weight="800" font-size="7.5" fill="#475569" letter-spacing="0.5" text-anchor="middle">OHA</text>
+        </svg>
+        <div class="header-text">
+          <h1>Memory Vault</h1>
+          <p>Manage the data SmartFill has learned from your forms.</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="search-box">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="searchInput" placeholder="Search keys or values...">
+        </div>
+        <div class="stat-badge" id="totalKeysBadge">0 Keys</div>
+        <div class="stat-badge" id="totalValuesBadge">0 Values</div>
+        <button id="clearAllBtn" class="btn btn-danger">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          Clear All Memory
+        </button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <div class="table-container">
+        <table class="vault-table">
+          <thead>
+            <tr>
+              <th style="width: 25%;">Field Label (Key)</th>
+              <th style="width: 65%;">Saved Values</th>
+              <th style="width: 10%; text-align: right;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="vaultTableBody">
+            <!-- Rows will be injected here by vault.js -->
+            <tr>
+              <td colspan="3" class="empty-state">
+                Loading memory vault...
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="vault.js"></script>
+</body>
+</html>

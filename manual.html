@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartFill — User Manual</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg-gradient: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+      --glass-bg: rgba(255, 255, 255, 0.4);
+      --glass-bg-hover: rgba(255, 255, 255, 0.6);
+      --glass-border: rgba(255, 255, 255, 0.6);
+      --glass-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+      --text: #0f172a;
+      --muted: #64748b;
+      --accent: #10b981; /* Emerald green */
+      --accent2: #059669;
+      --green: #10b981;
+      --purple: #8b5cf6;
+      --yellow: #f59e0b;
+      --red: #ef4444;
+      --blue: #3b82f6;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--bg-gradient);
+      background-attachment: fixed;
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── SCROLLBAR ─────────────────────────── */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, 0.15); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(15, 23, 42, 0.3); }
+
+    /* ─── HERO ──────────────────────────────── */
+    .hero {
+      position: relative;
+      padding: 60px 40px 30px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero-glow {
+      position: absolute;
+      top: -80px; left: 50%; transform: translateX(-50%);
+      width: 600px; height: 350px;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.8) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .hero-logo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .hero-logo svg {
+      filter: drop-shadow(0 2px 8px rgba(16,185,129,0.3));
+    }
+    .hero-logo-text {
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -1px;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent2);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      padding: 6px 16px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.5px;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+    .hero p {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 500px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+    .hero-feedback-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 24px;
+      padding: 10px 24px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 700;
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: var(--glass-shadow);
+      transition: all 0.2s ease;
+      backdrop-filter: blur(10px);
+    }
+    .hero-feedback-btn:hover {
+      background: var(--glass-bg-hover);
+      border-color: rgba(255,255,255,1);
+      transform: translateY(-2px);
+    }
+
+    /* ─── NAV TABS ──────────────────────────── */
+    .nav-wrapper {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 0 40px;
+      background: rgba(226, 232, 240, 0.7);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    }
+    .nav-tabs {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      overflow-x: auto;
+      padding: 12px 0;
+      scrollbar-width: none;
+    }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+    .nav-tab {
+      padding: 8px 18px;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.2s ease;
+    }
+    .nav-tab:hover { 
+      color: var(--text); 
+      background: rgba(255, 255, 255, 0.5); 
+    }
+    .nav-tab.active { 
+      background: #fff; 
+      color: var(--text); 
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.05); 
+    }
+
+    /* ─── MAIN LAYOUT ───────────────────────── */
+    .content {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 60px 40px;
+    }
+
+    /* ─── SECTION ───────────────────────────── */
+    .section { display: none; }
+    .section.active { display: block; animation: fadeUp 0.4s ease forwards; }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.8px;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+    .section-subtitle {
+      color: var(--muted);
+      font-size: 15px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+    }
+
+    /* ─── CARDS ─────────────────────────────── */
+    .card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+    .card-grid.three { grid-template-columns: 1fr 1fr 1fr; }
+    .card-grid.one { grid-template-columns: 1fr; }
+    @media (max-width: 680px) {
+      .card-grid, .card-grid.three { grid-template-columns: 1fr; }
+    }
+
+    .card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      padding: 24px;
+      transition: border-color 0.2s, transform 0.2s;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(10px);
+    }
+    .card:hover {
+      border-color: rgba(255,255,255,1);
+      transform: translateY(-2px);
+      background: var(--glass-bg-hover);
+    }
+    .card-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 16px;
+      font-size: 22px;
+    }
+    .card h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .card p {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    /* ─── COLOR LEGEND ──────────────────────── */
+    .color-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+    .legend-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 18px;
+      border-radius: 14px;
+      border: 1px solid var(--glass-border);
+      background: var(--glass-bg);
+      transition: border-color 0.2s;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(10px);
+    }
+    .legend-item:hover { border-color: rgba(255,255,255,1); background: var(--glass-bg-hover); }
+    .legend-dot {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      margin-top: 3px;
+      flex-shrink: 0;
+    }
+    .legend-border-preview {
+      width: 80px; height: 36px;
+      border-radius: 8px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .legend-text strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 14px; }
+    .legend-text p { color: var(--muted); font-size: 13px; line-height: 1.6; margin: 0; }
+
+    /* ─── ACCORDION ─────────────────────────── */
+    .accordion { margin-bottom: 12px; }
+    .accordion-btn {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 22px;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 14px;
+      cursor: pointer;
+      color: var(--text);
+      font-size: 14px;
+      font-weight: 600;
+      text-align: left;
+      transition: background 0.2s, border-color 0.2s;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(10px);
+    }
+    .accordion-btn:hover { background: var(--glass-bg-hover); border-color: rgba(255,255,255,1); }
+    .accordion-btn.open { border-radius: 14px 14px 0 0; border-color: rgba(255,255,255,1); background: rgba(255,255,255,0.7); }
+    .accordion-icon {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.05);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+    .accordion-icon svg { stroke: var(--text); opacity: 0.5; }
+    .accordion-btn.open .accordion-icon svg { opacity: 1; }
+    .accordion-btn.open .accordion-icon { transform: rotate(180deg); }
+    .accordion-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      background: rgba(255, 255, 255, 0.3);
+      border: 1px solid rgba(255,255,255,0.6);
+      border-top: none;
+      border-radius: 0 0 14px 14px;
+      backdrop-filter: blur(10px);
+    }
+    .accordion-body.open { max-height: 600px; }
+    .accordion-body-inner {
+      padding: 20px 22px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .accordion-body-inner strong { color: var(--text); }
+    .accordion-btn-label { display: flex; align-items: center; gap: 12px; }
+    .accordion-btn-label .acc-emoji {
+      width: 36px; height: 36px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+    }
+
+    /* ─── STEPS ─────────────────────────────── */
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step {
+      display: flex;
+      gap: 20px;
+      position: relative;
+    }
+    .step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      left: 17px;
+      top: 44px;
+      width: 2px;
+      height: calc(100% - 12px);
+      background: linear-gradient(to bottom, rgba(16, 185, 129, 0.4), transparent);
+    }
+    .step-num {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.7);
+      border: 2px solid rgba(16, 185, 129, 0.5);
+      color: var(--accent2);
+      font-weight: 800;
+      font-size: 13px;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      margin-top: 4px;
+      box-shadow: var(--glass-shadow);
+    }
+    .step-body {
+      padding-bottom: 32px;
+    }
+    .step-body h4 { font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .step-body p { font-size: 13px; color: var(--muted); line-height: 1.7; }
+
+    /* ─── TIP BOX ───────────────────────────── */
+    .tip-box {
+      display: flex;
+      gap: 14px;
+      padding: 16px 20px;
+      border-radius: 14px;
+      margin: 20px 0;
+      font-size: 13px;
+      line-height: 1.7;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(10px);
+    }
+    .tip-box.green { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #064e3b; }
+    .tip-box.yellow { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.3); color: #78350f; }
+    .tip-box.purple { background: rgba(139,92,246,0.1); border: 1px solid rgba(139,92,246,0.3); color: #4c1d95; }
+    .tip-box.blue { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.3); color: #1e3a8a; }
+    .tip-icon { font-size: 20px; flex-shrink: 0; }
+
+    /* ─── INLINE CODE ───────────────────────── */
+    code {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      background: rgba(15, 23, 42, 0.05);
+      color: var(--accent2);
+      padding: 2px 7px;
+      border-radius: 6px;
+      border: 1px solid rgba(15, 23, 42, 0.1);
+    }
+
+    /* ─── TABLE ─────────────────────────────── */
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+      margin: 20px 0;
+      background: var(--glass-bg);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--glass-shadow);
+      backdrop-filter: blur(10px);
+    }
+    .data-table th {
+      text-align: left;
+      padding: 12px 16px;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      border-bottom: 1px solid var(--glass-border);
+      background: rgba(255, 255, 255, 0.5);
+    }
+    .data-table td {
+      padding: 14px 16px;
+      color: var(--text);
+      border-bottom: 1px solid rgba(255,255,255,0.3);
+      vertical-align: top;
+    }
+    .data-table tr:last-child td { border-bottom: none; }
+    .data-table tr:hover td { background: rgba(255,255,255,0.4); }
+
+    /* ─── BADGE PILL ────────────────────────── */
+    .pill {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 100px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-right: 4px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    .pill.green { background: rgba(16,185,129,0.15); color: #047857; border: 1px solid rgba(16,185,129,0.3); }
+    .pill.purple { background: rgba(168,85,247,0.15); color: #6d28d9; border: 1px solid rgba(168,85,247,0.3); }
+    .pill.yellow { background: rgba(245,158,11,0.15); color: #b45309; border: 1px solid rgba(245,158,11,0.3); }
+    .pill.grey { background: rgba(148,163,184,0.15); color: #334155; border: 1px dashed rgba(148,163,184,0.4); }
+    .pill.indigo { background: rgba(99,102,241,0.15); color: #4338ca; border: 1px solid rgba(99,102,241,0.3); }
+
+    /* ─── DIVIDER ───────────────────────────── */
+    .spacer { height: 40px; }
+
+    /* ─── FOOTER ────────────────────────────── */
+    .manual-footer {
+      text-align: center;
+      padding: 40px;
+      color: var(--muted);
+      font-size: 13px;
+      border-top: 1px solid var(--glass-border);
+      margin-top: 40px;
+    }
+    .manual-footer span { color: var(--text); font-weight: 600; }
+  </style>
+</head>
+<body>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-logo">
+      <svg viewBox="0 0 36 24" width="48" height="32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M2 4 h11 v3.5 l-7 10 h7 v3.5 H2 v-3.5 l7 -10 H2 V4 z" fill="#0f172a"/>
+        <path d="M27 3h-6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V6l-3-3z" fill="#10b981"/>
+        <path d="M27 3v3h3" fill="#059669"/>
+        <line x1="22" y1="8" x2="26" y2="8" stroke="#0f172a" stroke-width="1.5" stroke-linecap="round"/>
+        <line x1="22" y1="11" x2="24" y2="11" stroke="#0f172a" stroke-width="1.5" stroke-linecap="round"/>
+        <text x="24" y="21.5" font-family="Arial, sans-serif" font-weight="800" font-size="7.5" fill="#64748b" letter-spacing="0.5" text-anchor="middle">OHA</text>
+      </svg>
+      <span class="hero-logo-text">SmartFill</span>
+    </div>
+    <div class="hero-tag">User Manual v1.0.0</div>
+    <h1>Everything you<br>need to know.</h1>
+    <p>A complete guide to every feature, button, and intelligent behavior inside SmartFill.</p>
+    <a href="https://forms.gle/kVYUG9AiRx4hNnFk6" target="_blank" class="hero-feedback-btn">
+      💬 Share Feedback & Support
+    </a>
+  </div>
+
+  <!-- NAV TABS -->
+  <div class="nav-wrapper">
+    <div class="nav-tabs" role="tablist">
+      <button class="nav-tab active" data-section="overview">Overview</button>
+      <button class="nav-tab" data-section="setup">First-Time Setup</button>
+      <button class="nav-tab" data-section="filling">Auto-Filling Forms</button>
+      <button class="nav-tab" data-section="indicators">Visual Indicators</button>
+      <button class="nav-tab" data-section="autopilot">AutoPilot Mode</button>
+      <button class="nav-tab" data-section="vault">Memory Vault</button>
+      <button class="nav-tab" data-section="ai">AI Engine & Tone</button>
+      <button class="nav-tab" data-section="faq">FAQ</button>
+    </div>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+
+    <!-- ═══ SECTION: OVERVIEW ═══════════════════════════════════════════════ -->
+    <section class="section active" id="overview">
+      <h2 class="section-title">What is SmartFill?</h2>
+      <p class="section-subtitle">SmartFill is a browser extension that fills long, repetitive forms — job applications, registrations, portals — in seconds using a three-layer Hybrid Engine.</p>
+
+      <div class="card-grid three">
+        <div class="card">
+          <div class="card-icon" style="background: rgba(16,185,129,0.12);">⚡</div>
+          <h3>Layer 1 — Local Profile</h3>
+          <p>Basic fields (name, email, phone, DOB) are filled instantly from your saved profile without any AI or internet call.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: rgba(99,102,241,0.12);">🧠</div>
+          <h3>Layer 2 — Memory Vault</h3>
+          <p>SmartFill remembers every unique answer you've typed into past forms and reuses them the next time a similar question appears.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: rgba(168,85,247,0.12);">✨</div>
+          <h3>Layer 3 — AI Engine</h3>
+          <p>Complex open-ended questions (cover letters, "Why this company?") are handled by a powerful LLM that reads your bio and writing style.</p>
+        </div>
+      </div>
+
+      <div class="tip-box blue">
+        <span class="tip-icon">ℹ️</span>
+        <div>SmartFill uses these three layers in order — Local first, then Vault, then AI. This means most fields on a typical form never need to make an API call at all, making SmartFill fast, private, and cost-effective.</div>
+      </div>
+
+      <div class="spacer"></div>
+      <h3 style="font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 20px;">What SmartFill can fill</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Field Type</th>
+            <th>Source</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Name, Email, Phone</td><td><span class="pill green">Local Profile</span></td><td>Jane Doe, jane@email.com</td></tr>
+          <tr><td>Date of Birth</td><td><span class="pill green">Local Profile</span></td><td>Auto-formatted to DD/MM/YYYY</td></tr>
+          <tr><td>PAN, Aadhaar, Passport</td><td><span class="pill green">Local Profile</span></td><td>ABCDE1234F (never sent to AI)</td></tr>
+          <tr><td>Cover Letters &amp; Essays</td><td><span class="pill purple">AI Engine</span></td><td>Personalized to the company &amp; role</td></tr>
+          <tr><td>Dropdown / Select</td><td><span class="pill purple">AI Engine</span></td><td>Experience level, notice period</td></tr>
+          <tr><td>Yes/No &amp; Checkboxes</td><td><span class="pill purple">AI Engine</span></td><td>Relocation, background check</td></tr>
+          <tr><td>Previously asked Q&amp;A</td><td><span class="pill indigo">Memory Vault</span></td><td>"Preferred shift" → Saved answer</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ═══ SECTION: SETUP ═══════════════════════════════════════════════════ -->
+    <section class="section" id="setup">
+      <h2 class="section-title">First-Time Setup</h2>
+      <p class="section-subtitle">Get SmartFill ready in under 3 minutes. You only need to do this once.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Choose an AI Provider</h4>
+            <p>Open the extension popup and go to <strong>Advanced Settings → AI Provider</strong>. Choose from Google Gemini (free, fast), Groq, DeepSeek, or Kimi. We recommend <strong>Gemini</strong> for new users as it has a generous free tier.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Enter Your API Key</h4>
+            <p>Visit your chosen provider's website, create a free API key, and paste it into the <strong>API Key</strong> field. Your key is securely encrypted directly on your device and is never transmitted to any server other than the AI provider you chose.</p>
+            <div class="tip-box green" style="margin-top: 12px;">
+              <span class="tip-icon">✅</span>
+              <div><strong>Groq Free Key:</strong> console.groq.com &nbsp;|&nbsp; <strong>Gemini Free Key:</strong> aistudio.google.com/app/apikey</div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Fill In Your Local Memory Profile</h4>
+            <p>Under <strong>Advanced Settings → Local Memory</strong>, enter your First Name, Last Name, Email, Phone, City, LinkedIn, GitHub, Date of Birth, and any ID document numbers. These fields are used for instant local fills — no AI is ever called for these.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Write Your Professional Bio</h4>
+            <p>Open the <strong>Professional Bio</strong> section. Write a detailed paragraph about yourself — your college, degree, skills, tools, years of experience, and the type of work you do. The better this bio, the better every cover letter and essay SmartFill writes for you.</p>
+            <div class="tip-box yellow" style="margin-top: 12px;">
+              <span class="tip-icon">💡</span>
+              <div>Be specific. Mention real skills ("MERN stack, n8n automation, Tailwind CSS"), not vague things ("I am a hardworking person").</div>
+            </div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>Add Writing Samples (for Tone Matching)</h4>
+            <p>Open the <strong>Writing Examples</strong> section. Paste 2–3 excerpts from emails or short paragraphs you have previously written. SmartFill's AI analyzes these and mirrors your exact vocabulary, tone, and sentence structure when writing cover letters — so it sounds like you, not a robot.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">6</div>
+          <div class="step-body">
+            <h4>Save Your Settings</h4>
+            <p>Click the <strong>Save Memory</strong> button at the bottom of the popup. A green confirmation toast will appear. You are now ready to auto-fill any form.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══ SECTION: FILLING ══════════════════════════════════════════════════ -->
+    <section class="section" id="filling">
+      <h2 class="section-title">Auto-Filling a Form</h2>
+      <p class="section-subtitle">How to use SmartFill on any form — job board, HR portal, registration page, or chatbot.</p>
+
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <h4>Navigate to the form page</h4>
+            <p>Go to any website with a form you want to fill. SmartFill works on standard HTML forms, React-powered forms, custom modals, and most multi-step application wizards.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <h4>Click the SmartFill icon</h4>
+            <p>Click the SmartFill extension icon in your Chrome toolbar to open the popup. Check that your profile is saved (you should see your name reflected in the fields).</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <h4>Press "Auto-Fill Page"</h4>
+            <p>Click the <strong>Auto-Fill Page</strong> button. SmartFill will scan the page, identify all fillable fields, and send them through the Hybrid Engine. Within a few seconds, the entire form will light up with colored borders showing what was filled and how.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <h4>Review the highlighted fields</h4>
+            <p>Look at the borders on each field. <span class="pill green">Green</span> = verified. <span class="pill purple">Purple</span> = AI-generated, usually great. <span class="pill yellow">Yellow</span> = needs your attention. <span class="pill grey">Dashed Grey</span> = was already filled before you clicked.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <h4>Submit!</h4>
+            <p>After a quick review, submit the form. SmartFill will automatically record any new question-answer pairs into your Memory Vault so future forms fill even faster.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <h3 style="font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 20px;">The Buttons Explained</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>Button</th><th>What it does</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Auto-Fill Page</strong></td>
+            <td>Sends all empty (and pre-filled) fields on the current page through the Hybrid Engine. Fills everything in one shot.</td>
+          </tr>
+          <tr>
+            <td><strong>Save Memory</strong></td>
+            <td>Saves your current profile data (name, email, bio, writing samples, API key) to encrypted local storage. <em>Must be clicked after any change.</em></td>
+          </tr>
+          <tr>
+            <td><strong>AutoPilot Toggle</strong></td>
+            <td>Switches the extension into a background-watching mode. New fields that appear on the page are filled automatically without pressing any button. See the AutoPilot section for details.</td>
+          </tr>
+          <tr>
+            <td><strong>Manage Vault Dashboard</strong></td>
+            <td>Opens the Memory Vault in a new tab, where you can view, search, and delete every learned Q&amp;A pair.</td>
+          </tr>
+          <tr>
+            <td><strong>💡 Bulb Icon</strong></td>
+            <td>Opens this User Manual in a new tab.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ═══ SECTION: INDICATORS ══════════════════════════════════════════════ -->
+    <section class="section" id="indicators">
+      <h2 class="section-title">Visual Indicators</h2>
+      <p class="section-subtitle">Every field SmartFill touches gets a colored border so you instantly understand how the value was generated.</p>
+
+      <div class="color-legend">
+        <div class="legend-item">
+          <div class="legend-border-preview" style="border: 2px solid rgba(34,197,94,0.7); background: rgba(34,197,94,0.15);">
+            <span style="font-size: 10px; color: #15803d; font-weight: 600;">jane@email.com</span>
+          </div>
+          <div class="legend-text">
+            <strong>🟢 Green — Verified Local Match</strong>
+            <p>The field was filled instantly from your Local Profile (Name, Email, Phone, DOB, ID documents) or confirmed Memory Vault data. Zero AI involvement. Data is 100% what you entered yourself. These fills are instantaneous.</p>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-border-preview" style="border: 2px solid rgba(147,51,234,0.7); background: rgba(147,51,234,0.15);">
+            <span style="font-size: 10px; color: #7e22ce; font-weight: 600;">Cover letter</span>
+          </div>
+          <div class="legend-text">
+            <strong>🟣 Purple — AI Generated (Confident)</strong>
+            <p>The AI read the field's label, your Professional Bio, and your Writing Samples and composed a strong, personalized answer. This applies to cover letters, essays, "Why this company?" fields, and dropdowns the AI could confidently match.</p>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-border-preview" style="border: 2px solid rgba(234,179,8,0.8); background: rgba(234,179,8,0.2);">
+            <span style="font-size: 10px; color: #b45309; font-weight: 600;">__________</span>
+          </div>
+          <div class="legend-text">
+            <strong>🟡 Yellow — Needs Review (Marker)</strong>
+            <p>The AI could not confidently answer this field (e.g., "Expected CTC" if it's not in your bio). It left the field empty and highlighted it yellow so you know exactly what still needs your manual input. Never ignore a yellow field before submitting.</p>
+          </div>
+        </div>
+        <div class="legend-item">
+          <div class="legend-border-preview" style="border: 2px dashed rgba(156,163,175,0.8); background: rgba(156,163,175,0.15);">
+            <span style="font-size: 10px; color: #4b5563; font-weight: 600;">Kolkata</span>
+          </div>
+          <div class="legend-text">
+            <strong>⬜ Dashed Grey — Pre-filled / Skipped</strong>
+            <p>This field had content in it before you clicked Auto-Fill. SmartFill skipped it to avoid overwriting your data. However, if you click Auto-Fill manually (not AutoPilot), SmartFill will overwrite grey fields if it has a 100% confident Green match available — replacing the grey border with green.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip-box purple">
+        <div>A quick scan of the colors after filling tells you exactly where to focus. If you see only green and purple — you can submit right away. If you see yellow, pause and fill those fields manually first.</div>
+      </div>
+    </section>
+
+    <!-- ═══ SECTION: AUTOPILOT ════════════════════════════════════════════════ -->
+    <section class="section" id="autopilot">
+      <h2 class="section-title">AutoPilot Mode</h2>
+      <p class="section-subtitle">Let SmartFill watch the page in the background and fill forms the moment they appear — no button clicks needed.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon" style="background: rgba(16,185,129,0.12);">🟢</div>
+          <h3>When AutoPilot is ON</h3>
+          <p>SmartFill continuously watches the page for changes. The moment a new field appears (e.g., you click "Apply Now" and a dialog pops up), it immediately fills the new fields. No button click needed.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: rgba(239,68,68,0.12);">🔴</div>
+          <h3>When AutoPilot is OFF</h3>
+          <p>SmartFill does nothing passively. You are fully in control. Only when you explicitly click "Auto-Fill Page" does the extension interact with the form. This is the default mode.</p>
+        </div>
+      </div>
+
+      <div class="tip-box yellow">
+        <span class="tip-icon">⚠️</span>
+        <div><strong>Important:</strong> AutoPilot will NEVER overwrite a field that already has content in it. If you are mid-typing in a field, AutoPilot will respect that and leave it alone. Only the manual "Auto-Fill Page" button can overwrite pre-filled fields (and only with verified Green data).</div>
+      </div>
+
+      <div class="spacer"></div>
+      <h3 style="font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 16px;">Best practices for AutoPilot</h3>
+
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(16,185,129,0.12);">📋</div> Use AutoPilot on multi-step application wizards</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">Long multi-page application forms (like Workday or Greenhouse portals) reveal new fields as you click "Next". AutoPilot detects each new page of fields and fills them instantly, so you only have to click "Next" and review, never type.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(245,158,11,0.12);">💬</div> Works with chatbot-style application forms</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">Some job portals use a conversational chat interface instead of a traditional form. SmartFill detects chat boxes and text inputs inside these chatbots and fills them. AutoPilot mode is especially useful here since new question inputs appear one at a time.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(99,102,241,0.12);">🔄</div> AutoPilot won't spam retries</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">If the AI skips a field (returns empty with a Yellow marker), AutoPilot will not repeatedly retry that same field and spam the API. It marks the field as "sentToAI" and moves on, so you're never charged double for the same question.</div></div>
+      </div>
+    </section>
+
+    <!-- ═══ SECTION: VAULT ════════════════════════════════════════════════════ -->
+    <section class="section" id="vault">
+      <h2 class="section-title">Memory Vault</h2>
+      <p class="section-subtitle">SmartFill gets smarter every time you use it. The Memory Vault is a private, encrypted key-value store that learns from you.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon" style="background: rgba(99,102,241,0.12);">📝</div>
+          <h3>How it learns</h3>
+          <p>After every successful AI fill, SmartFill records the pairing: the field's label and the AI's answer. The next time a field with a similar label appears on any website, the Vault match fires first — instantly, without calling the AI.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: rgba(16,185,129,0.12);">🔒</div>
+          <h3>Fully Private</h3>
+          <p>Vault entries are stored securely inside your browser's local storage. They never leave your device. Sensitive fields (passwords, OTPs, CVV, biometrics) are automatically blocked from ever being stored.</p>
+        </div>
+      </div>
+
+      <div class="tip-box blue">
+        <span class="tip-icon">📖</span>
+        <div>Click <strong>Manage Vault Dashboard</strong> in the popup to open a full dashboard where you can search, view, and delete individual entries. You can also export the entire vault as a JSON file for backup.</div>
+      </div>
+
+      <div class="spacer"></div>
+      <h3 style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 16px;">Smart filtering — what the vault rejects</h3>
+
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(239,68,68,0.12);">🚫</div> Sensitive fields are always blocked</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">Any field whose label contains keywords like <code>password</code>, <code>otp</code>, <code>cvv</code>, <code>secret</code>, or <code>biometric</code> is <strong>permanently blocked</strong> from being stored in the Vault. SmartFill will never learn or store your security credentials.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(245,158,11,0.12);">🗑️</div> Junk / noise fields are ignored</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">Fields labeled <code>search</code>, <code>query</code>, <code>keyword</code>, <code>comment</code>, or <code>feedback</code> are ignored. Long text blocks (over 100 characters) are also excluded to prevent cluttering the vault with essay-length answers.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(99,102,241,0.12);">🔍</div> Fuzzy matching for slightly different labels</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">The Vault doesn't require an exact label match. It uses smart text matching to match labels that are semantically similar. For example, a vault entry for <code>Are you willing to relocate?</code> will also match <code>Willing to relocate</code> or <code>Open to relocation?</code> on another site.</div></div>
+      </div>
+    </section>
+
+    <!-- ═══ SECTION: AI ═══════════════════════════════════════════════════════ -->
+    <section class="section" id="ai">
+      <h2 class="section-title">AI Engine & Tone Matching</h2>
+      <p class="section-subtitle">How SmartFill uses your bio and writing samples to generate highly personalized, professional answers.</p>
+
+      <div class="card-grid">
+        <div class="card">
+          <div class="card-icon" style="background: rgba(168,85,247,0.12);">✍️</div>
+          <h3>Professional Bio</h3>
+          <p>The AI's knowledge base about you. Every cover letter and open-ended question is answered using specific facts from here. The more detailed this is, the more impressive the output.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon" style="background: rgba(245,158,11,0.12);">🎭</div>
+          <h3>Writing Samples = Your Voice</h3>
+          <p>The AI reads your samples and locks onto your writing style. If you write in short, punchy sentences, so will SmartFill. If you prefer formal academic language, the AI will match it precisely.</p>
+        </div>
+      </div>
+
+      <div class="spacer"></div>
+      <h3 style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 16px;">AI behavior rules</h3>
+
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(99,102,241,0.12);">🏢</div> It reads the correct company from the modal, not the page background</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">On job boards like LinkedIn or Internshala, there may be 20+ company names in the background. SmartFill's context scanner is strictly restricted to the active modal/dialog box you opened. It will only read the company name shown inside your application popup, never from the listing list behind it.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(16,185,129,0.12);">👔</div> Always formal and professional</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">SmartFill's AI is explicitly instructed to maintain a highly professional, polite, and formal tone at all times. It is prohibited from using casual phrases like "How are you doing?" or "Hope you're well". Every piece of writing focuses strictly on your skills, the role, and the company.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(245,158,11,0.12);">🤫</div> Honest about what it doesn't know</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">If the AI cannot find the answer in your bio (e.g., "Expected salary" when you haven't specified one), it will NOT guess or make up a number. Instead, it will leave the field blank and mark it yellow so you can fill it in correctly yourself.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(239,68,68,0.12);">🔐</div> Your sensitive data never reaches the AI</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">Fields containing Aadhaar, PAN, Passport, OTPs, or passwords are handled <strong>exclusively</strong> by the local profile — they are stripped out before the AI prompt is built. Your national ID numbers are never included in any API request.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(99,102,241,0.12);">✅</div> Defaults to "Yes" for reasonable consent questions</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">For yes/no questions about relocation, work shifts, background checks, or visa sponsorship, the AI defaults to the positive answer ("Yes", "Willing", "I agree") — unless your Professional Bio explicitly says otherwise. This ensures you don't accidentally appear uncooperative on applications.</div></div>
+      </div>
+
+      <div class="spacer"></div>
+      <h3 style="font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 16px;">Supported AI Providers</h3>
+      <table class="data-table">
+        <thead>
+          <tr><th>Provider</th><th>Model</th><th>Speed</th><th>Free Tier</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>Groq</strong></td><td>GPT OSS 20B (LLaMA)</td><td>⚡ Very Fast</td><td>✅ Yes (console.groq.com)</td></tr>
+          <tr><td><strong>Google Gemini</strong></td><td>Gemini 2.5 Flash-Lite</td><td>⚡ Fast</td><td>✅ Yes (aistudio.google.com)</td></tr>
+          <tr><td><strong>DeepSeek</strong></td><td>DeepSeek Chat</td><td>🔵 Moderate</td><td>🔵 Low-cost (platform.deepseek.com)</td></tr>
+          <tr><td><strong>Kimi (Moonshot)</strong></td><td>Moonshot AI</td><td>🔵 Moderate</td><td>🔵 Trial credits (platform.moonshot.cn)</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ═══ SECTION: FAQ ═══════════════════════════════════════════════════════ -->
+    <section class="section" id="faq">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <p class="section-subtitle">Answers to the most common questions about SmartFill's behavior.</p>
+
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(239,68,68,0.12);">❓</div> Why did the screen go blank after filling?</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">This is caused by React-based forms with strict input masks. SmartFill now uses a safe simulated paste method instead of forcing raw values, which allows the form's mask to process the input naturally without crashing. If this still happens, try refreshing the page and running Auto-Fill again.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(245,158,11,0.12);">📅</div> Why is the Date of Birth filling incorrectly?</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">SmartFill reads the label and the field's placeholder text to detect the expected format. It defaults to <strong>DD/MM/YYYY</strong> for text inputs. For native <code>&lt;input type="date"&gt;</code> fields, it always uses <code>YYYY-MM-DD</code> which the browser then displays in your regional format. If your form expects MM/DD/YYYY, ensure the label or placeholder says so — SmartFill will detect it automatically.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(99,102,241,0.12);">🏢</div> Why is it writing the wrong company name?</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">This happened when the context scanner was reading company names from the background listing page behind the modal. This has been fixed. SmartFill now restricts context scanning strictly to within the modal/dialog you are currently applying in, so it will only see the company name shown inside your application form.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(16,185,129,0.12);">🔁</div> Can I use SmartFill without an internet connection?</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">Partially. The Local Profile (Layer 1) and Memory Vault (Layer 2) work completely offline. Name, Email, Phone, DOB, ID documents, and all previously learned Q&amp;A pairs will fill instantly. Only the AI Layer (Layer 3 — cover letters, complex questions) requires an internet connection to call the AI provider's API.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(168,85,247,0.12);">🔐</div> Is my data safe? What gets sent to the AI?</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">Your API key is securely encrypted and stored locally. Only your <strong>Professional Bio</strong> and <strong>Writing Samples</strong> are sent to the AI for context — never your raw PAN, Aadhaar, Passport, phone number, or passwords. Those are handled exclusively by the local layer and never included in an AI API call.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(245,158,11,0.12);">📦</div> Why does the Memory Vault not save my search queries?</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">By design. The Vault's garbage filter ignores any field labeled with words like <code>search</code>, <code>query</code>, <code>comment</code>, <code>keyword</code>, or <code>feedback</code>. This keeps the Vault clean with only useful, reusable form answers — not one-off search terms or long message drafts.</div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(239,68,68,0.12);">🌍</div> A dropdown filled the wrong option even though my Vault has the correct answer (e.g., Iceland instead of India)</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">
+          This is a known limitation of the <strong>smart text matching</strong> used on dropdown (<code>&lt;select&gt;</code>) fields. Here is what happens and how to fix it:<br><br>
+          <strong>Why it happens:</strong> Different websites list countries, states, and disciplines in slightly different formats. When SmartFill tries to match "India" against a dropdown, it compares your saved value against all available options using a similarity score. If the dropdown loads slowly (especially in JavaScript-heavy portals like Workday or SAP), SmartFill may read an incomplete or partially-rendered options list and pick the closest wrong match — like "Iceland" or "Indiana" — because the full list wasn't available yet.<br><br>
+          <strong>Step-by-step fix:</strong><br>
+          1. <strong>Turn off AutoPilot</strong> — Open the SmartFill popup and toggle AutoPilot <em>off</em>. When AutoPilot is on, it fires immediately as elements appear on screen, often before the dropdown has finished loading all its options. Turning it off gives the page time to fully render.<br>
+          2. <strong>Wait for the page to fully load</strong> — Ensure the entire form and all its dropdowns are visually complete before proceeding.<br>
+          3. <strong>Click "Auto-Fill Page" manually</strong> — With AutoPilot off, press the button yourself. SmartFill will now scan a fully-rendered form and find the correct dropdown options.<br>
+          4. <strong>If still wrong</strong> — Manually select the correct value from the dropdown, then submit the form. SmartFill will now learn <em>not</em> to use the Vault for that dropdown (dropdown values are no longer saved to the Vault by design, so each fill will go through the AI which adapts to the live options).
+        </div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(99,102,241,0.12);">🔄</div> A dropdown that previously filled wrong keeps filling wrong — how do I reset it?</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">
+          If a specific dropdown (like Country, Location, or Discipline) consistently fills with the wrong value, a stale or incorrect entry may be sitting in your Memory Vault from a previous session. Here's how to clean it up:<br><br>
+          1. Open the SmartFill popup and click <strong>"Manage Vault Dashboard"</strong>.<br>
+          2. Use the search bar to look for the field name (e.g., "location", "country", "discipline").<br>
+          3. Find the entry with the wrong saved value and click the <strong>Delete</strong> button next to it.<br>
+          4. Close the Vault and go back to your form. SmartFill will now call the AI fresh for that field, which reads the actual live dropdown options and picks the correct one.<br><br>
+          <strong>Pro tip:</strong> Going forward, dropdown values from <code>&lt;select&gt;</code> elements are never saved to the Vault (by design), so this should only affect entries from older sessions. New fills will always be handled by the AI, which adapts to whatever options are present on the page.
+        </div></div>
+      </div>
+      <div class="accordion">
+        <button class="accordion-btn">
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(59,130,246,0.12);">💡</div> I have a feature request, bug, or need support!</div>
+          <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
+        </button>
+        <div class="accordion-body"><div class="accordion-body-inner">
+          We'd love to hear from you. Whether you found a bug, have an idea for a new feature, or need help with setup, you can <a href="https://forms.gle/kVYUG9AiRx4hNnFk6" target="_blank" style="color:var(--text); font-weight:600; text-decoration:underline;">fill out our Feedback Form here</a>.
+        </div></div>
+      </div>
+    </section>
+
+  </div><!-- /content -->
+
+  <footer class="manual-footer">
+    Built with care by <span>ZOHA</span> &nbsp;·&nbsp; SmartFill v1.0.0 &nbsp;·&nbsp; <a href="https://docs.google.com/document/d/1G4RNyC-0VDr0v-hFDsOOQ46b5cwunBORM06TcaCY7hg/edit?usp=sharing" target="_blank" style="color:var(--text); text-decoration:underline;">Privacy Policy</a> &nbsp;·&nbsp; All data stored locally on your device.
+  </footer>
+
+  <script src="manual.js"></script>
+</body>
+</html>

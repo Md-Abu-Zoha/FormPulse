@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="glass-panel">
+    <header>
+      <div class="logo">
+        <svg viewBox="0 0 36 24" width="36" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <!-- Left side: The Solid Monochromatic Z -->
+          <path d="M2 4 h11 v3.5 l-7 10 h7 v3.5 H2 v-3.5 l7 -10 H2 V4 z" fill="#0f172a"/>
+          <!-- Top Right: Filled Indigo Form -->
+          <path d="M27 3h-6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V6l-3-3z" fill="#4f46e5"/>
+          <path d="M27 3v3h3" fill="#3730a3"/>
+          <line x1="22" y1="8" x2="26" y2="8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="22" y1="11" x2="24" y2="11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Bottom Right: Stylish OHA Font -->
+          <text x="24" y="21.5" font-family="Arial, sans-serif" font-weight="800" font-size="7.5" fill="#475569" letter-spacing="0.5" text-anchor="middle">OHA</text>
+        </svg>
+        <h1>SmartFill</h1>
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <div class="badge">Hybrid Engine</div>
+        <button id="openManualBtn" class="icon-btn" title="View User Manual">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 18h6"/>
+            <path d="M10 22h4"/>
+            <path d="M15.09 14c.18-.98.65-1.74 1.41-2.5A4.65 4.65 0 0 0 12 3.5a4.65 4.65 0 0 0-4.5 7.9c.76.76 1.23 1.52 1.41 2.5"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+    <div class="scroll-container">
+
+      <!-- CORE CONTEXT CARDS -->
+      <div class="accordion-card">
+        <button class="accordion-header" id="bioHeader">
+          <span style="display:flex; align-items:center; gap:8px;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            Professional Bio
+          </span>
+          <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="accordion-content" id="bioContent">
+          <textarea id="bioInput" rows="4" placeholder="Brief overview of your skills, college, experience..."></textarea>
+        </div>
+      </div>
+
+      <div class="accordion-card">
+        <button class="accordion-header" id="samplesHeader">
+          <span style="display:flex; align-items:center; gap:8px;">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            Writing Examples
+          </span>
+          <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </button>
+        <div class="accordion-content" id="samplesContent">
+          <textarea id="writingSamples" rows="4" placeholder="Paste 2-3 examples of things you've written (emails, pitches) so the AI can match your exact tone..."></textarea>
+        </div>
+      </div>
+
+      <!-- ADVANCED SETTINGS -->
+      <details class="advanced-settings">
+        <summary>
+          <span>Advanced Settings</span>
+          <svg class="chevron-adv" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </summary>
+        <div class="advanced-content">
+          
+          <!-- API PROVIDER + KEY -->
+          <div class="section-title">AI Provider & API Key</div>
+          <div class="input-group">
+            <label>Choose AI Provider</label>
+            <div class="select-wrapper">
+              <select id="providerSelect">
+                <option value="gemini">Google Gemini 3.1 Flash-Lite</option>
+                <option value="groq">Groq - GPT OSS 20B</option>
+                <option value="deepseek">DeepSeek Chat</option>
+                <option value="kimi">Kimi (Moonshot AI)</option>
+              </select>
+            </div>
+          </div>
+          <div class="input-group">
+            <label id="apiKeyLabel">API Key</label>
+            <input type="password" id="apiKey" placeholder="Paste your API key here" autocomplete="off">
+            <small id="apiKeyHint" style="color:#888;font-size:11px;margin-top:4px;display:block"></small>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- LOCAL MEMORY -->
+          <div class="section-title">Local Memory (Instant Fill)</div>
+          <div class="input-grid">
+            <div class="input-group">
+              <label>First Name</label>
+              <input type="text" id="firstName" placeholder="Jane">
+            </div>
+            <div class="input-group">
+              <label>Last Name</label>
+              <input type="text" id="lastName" placeholder="Doe">
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="jane@example.com">
+          </div>
+          <div class="input-grid">
+            <div class="input-group">
+              <label>Phone Number</label>
+              <input type="tel" id="phone" placeholder="+91 98314 95070">
+            </div>
+            <div class="input-group">
+              <label>City / Location</label>
+              <input type="text" id="city" placeholder="Kolkata, India">
+            </div>
+          </div>
+          <div class="input-group">
+            <label>Portfolio / Website</label>
+            <input type="url" id="portfolio" placeholder="https://yoursite.com">
+          </div>
+          <div class="input-group">
+            <label>LinkedIn Profile</label>
+            <input type="url" id="linkedin" placeholder="https://linkedin.com/in/janedoe">
+          </div>
+          <div class="input-group">
+            <label>GitHub / X (Twitter)</label>
+            <input type="url" id="github" placeholder="https://github.com/janedoe">
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- INDIAN ID DOCUMENTS -->
+          <div class="section-title">ID Documents (local-only fill)</div>
+          <div class="input-grid">
+            <div class="input-group">
+              <label>PAN Card Number</label>
+              <input type="text" id="pan" placeholder="ABCDE1234F" autocomplete="off">
+            </div>
+            <div class="input-group">
+              <label>Date of Birth</label>
+              <input type="date" id="dob">
+            </div>
+          </div>
+          <div class="input-grid">
+            <div class="input-group">
+              <label>Aadhaar Number</label>
+              <input type="text" id="aadhaar" placeholder="XXXX XXXX XXXX" autocomplete="off">
+            </div>
+            <div class="input-group">
+              <label>Passport Number</label>
+              <input type="text" id="passport" placeholder="A1234567" autocomplete="off">
+            </div>
+          </div>
+
+          <div class="divider"></div>
+
+          <!-- MEMORY VAULT -->
+          <div class="accordion-card">
+            <button class="accordion-header" id="vaultHeader">
+              <span style="display:flex; align-items:center; gap:8px;">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7V4h16v3M4 11h16M4 15h16M4 19h16M4 4v16h16V4z"/></svg>
+                Memory Vault <span id="vaultCount" style="font-size:10px;font-weight:400;color:#94a3b8;margin-left:6px;">(0 entries)</span>
+              </span>
+              <svg class="chevron" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="accordion-content" id="vaultContent">
+              <p style="font-size:11px;color:#94a3b8;margin:0 0 12px 0;line-height:1.5;">
+                SmartFill learns from every form you fill. These entries are used to instantly fill future forms without calling the AI.
+              </p>
+              <button id="manageVaultBtn" class="btn btn-secondary" style="width: 100%; padding: 8px; justify-content: center; font-size: 13px;">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 6px;"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                Manage Vault Dashboard
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </details>
+
+    </div>
+
+    <div class="actions">
+      <button id="saveBtn" class="btn btn-secondary">
+        <span>Save Memory</span>
+      </button>
+      <button id="fillBtn" class="btn btn-primary">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><rect x="8" y="2" width="8" height="4" rx="1" ry="1"></rect><path d="M9 14l2 2 4-4"></path></svg>
+        <span>Auto-Fill Page</span>
+      </button>
+    </div>
+
+    <div class="auto-pilot-container" style="display: flex; align-items: center; justify-content: space-between; margin-top: 16px; padding: 12px; background: rgba(255, 255, 255, 0.9); border-radius: 14px; border: 1px solid rgba(0, 0, 0, 0.05); box-shadow: 0 2px 4px rgba(0,0,0,0.02);">
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#10b981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+        <div style="display: flex; flex-direction: column;">
+          <span style="font-size: 13px; font-weight: 600; color: #0f172a;">Auto-Pilot Mode</span>
+          <span style="font-size: 11px; color: #64748b;">Fills new fields automatically</span>
+        </div>
+      </div>
+      <label class="switch" style="position: relative; display: inline-block; width: 36px; height: 20px;">
+        <input type="checkbox" id="autoPilotToggle" style="opacity: 0; width: 0; height: 0;">
+        <span class="slider round" style="position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #cbd5e1; transition: .4s; border-radius: 20px;"></span>
+      </label>
+    </div>
+    
+    <div id="statusMessage" class="status"></div>
+
+    <div class="footer-bar">
+      <div class="footer-brand">By ZOHA</div>
+      <div class="footer-security">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+        <span>Local Memory</span>
+      </div>
+    </div>
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

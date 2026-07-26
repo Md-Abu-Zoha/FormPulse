@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SmartFill Store Asset Generator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f1f5f9;
+      padding: 40px;
+      color: #334155;
+    }
+    h1 { margin-top: 0; }
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    canvas {
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      max-width: 400px; /* scale down for preview */
+      height: auto;
+    }
+    .btn {
+      background: #4f46e5;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn:hover { background: #4338ca; }
+    .details { flex-grow: 1; }
+    p { margin: 8px 0; color: #64748b; }
+  </style>
+</head>
+<body>
+
+  <h1>SmartFill Web Store Asset Generator</h1>
+  <p style="margin-bottom: 30px;">This tool instantly formats your raw screenshots into the exact sizes required by the Chrome Web Store. Click download on each to save them!</p>
+
+  <!-- ICONS (128, 48, 16) -->
+  <div class="card">
+    <div style="display:flex; gap:16px; align-items:flex-end;">
+      <canvas id="canvas-icon128" width="128" height="128"></canvas>
+      <canvas id="canvas-icon48" width="48" height="48"></canvas>
+      <canvas id="canvas-icon16" width="16" height="16"></canvas>
+    </div>
+    <div class="details">
+      <h2>Extension Icons</h2>
+      <p>Save these into your 'icons' folder, replacing the old ones.</p>
+      <div style="display:flex; gap:8px; margin-top:12px;">
+        <a id="dl-icon128" class="btn" download="icon128.png">128x128</a>
+        <a id="dl-icon48" class="btn" download="icon48.png">48x48</a>
+        <a id="dl-icon16" class="btn" download="icon16.png">16x16</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROMO TILE -->
+  <div class="card">
+    <canvas id="canvas-promo" width="440" height="280"></canvas>
+    <div class="details">
+      <h2>Promotional Tile (440x280)</h2>
+      <p>The main banner shown in Chrome search results.</p>
+      <a id="dl-promo" class="btn" download="Promo_Tile_440x280.png">Download Promo Tile</a>
+    </div>
+  </div>
+
+  <!-- SCREENSHOT 1: POPUP -->
+  <div class="card">
+    <canvas id="canvas-popup" width="1280" height="800"></canvas>
+    <div class="details">
+      <h2>Screenshot: Popup (1280x800)</h2>
+      <p>Raw image: photos/popup.png</p>
+      <a id="dl-popup" class="btn" download="Store_Screenshot_Popup.png">Download Image</a>
+    </div>
+  </div>
+
+  <!-- SCREENSHOT 2: MANUAL -->
+  <div class="card">
+    <canvas id="canvas-manual" width="1280" height="800"></canvas>
+    <div class="details">
+      <h2>Screenshot: Manual (1280x800)</h2>
+      <p>Raw image: photos/manual.png</p>
+      <a id="dl-manual" class="btn" download="Store_Screenshot_Manual.png">Download Image</a>
+    </div>
+  </div>
+
+  <!-- SCREENSHOT 3: VAULT -->
+  <div class="card">
+    <canvas id="canvas-vault" width="1280" height="800"></canvas>
+    <div class="details">
+      <h2>Screenshot: Vault (1280x800)</h2>
+      <p>Raw image: photos/vault.png</p>
+      <a id="dl-vault" class="btn" download="Store_Screenshot_Vault.png">Download Image</a>
+    </div>
+  </div>
+
+  <!-- SCREENSHOT 4: AUTO-FILL -->
+  <div class="card">
+    <canvas id="canvas-autofill" width="1280" height="800"></canvas>
+    <div class="details">
+      <h2>Screenshot: Auto-Fill (1280x800)</h2>
+      <p>Raw image: photos/auto-fill.png</p>
+      <a id="dl-autofill" class="btn" download="Store_Screenshot_AutoFill.png">Download Image</a>
+    </div>
+  </div>
+
+  <script>
+    function generatePromoTile() {
+      const canvas = document.getElementById('canvas-promo');
+      const ctx = canvas.getContext('2d');
+      
+      // Fallback background in case image fails to load
+      const grad = ctx.createLinearGradient(0, 0, 440, 280);
+      grad.addColorStop(0, '#1e1b4b');
+      grad.addColorStop(1, '#0f172a');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 440, 280);
+
+      const bgImg = new Image();
+      bgImg.crossOrigin = "Anonymous"; 
+      // High-quality, well-lit photo of a modern laptop open on a desk
+      bgImg.src = "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=880&h=560&q=80";
+
+      bgImg.onload = function() {
+        // Draw the real photo
+        ctx.drawImage(bgImg, 0, 0, 440, 280);
+        
+        // Add a sleek dark overlay so the white text is perfectly readable
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.65)';
+        ctx.fillRect(0, 0, 440, 280);
+        
+        drawOverlayText();
+      };
+      
+      bgImg.onerror = function() {
+        // If offline, just draw the text over the gradient
+        drawOverlayText();
+      };
+
+      function drawOverlayText() {
+        // Main Text (SmartFill)
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 54px "Segoe UI", Arial, sans-serif';
+        ctx.textAlign = 'center';
+        
+        // Drop shadow for main text
+        ctx.shadowColor = 'rgba(0,0,0,0.8)';
+        ctx.shadowBlur = 12;
+        ctx.shadowOffsetY = 4;
+        ctx.fillText('SmartFill', 220, 140);
+        
+        // Reset shadow
+        ctx.shadowColor = 'transparent';
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetY = 0;
+
+        // "By ZOHA" signature perfectly centered below
+        ctx.textAlign = 'center';
+        ctx.fillStyle = '#cbd5e1';
+        ctx.font = '18px "Segoe UI", Arial, sans-serif';
+        ctx.fillText('By ZOHA', 220, 200);
+
+        // Link to download
+        document.getElementById('dl-promo').href = canvas.toDataURL('image/png');
+      }
+    }
+
+    function generateIcons() {
+      // The full ZOHA logo
+      const svgStr = `
+        <svg viewBox="0 0 36 24" width="36" height="24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M2 4 h11 v3.5 l-7 10 h7 v3.5 H2 v-3.5 l7 -10 H2 V4 z" fill="#0f172a"/>
+          <path d="M27 3h-6a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h7a1 1 0 0 0 1-1V6l-3-3z" fill="#4f46e5"/>
+          <path d="M27 3v3h3" fill="#3730a3"/>
+          <line x1="22" y1="8" x2="26" y2="8" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+          <line x1="22" y1="11" x2="24" y2="11" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+          <text x="24" y="21.5" font-family="Arial, sans-serif" font-weight="800" font-size="7.5" fill="#475569" letter-spacing="0.5" text-anchor="middle">OHA</text>
+        </svg>
+      `;
+      const svgBlob = new Blob([svgStr], {type: 'image/svg+xml;charset=utf-8'});
+      const url = URL.createObjectURL(svgBlob);
+      const iconImg = new Image();
+      
+      iconImg.onload = function() {
+        const sizes = [128, 48, 16];
+        sizes.forEach(size => {
+          const canvas = document.getElementById('canvas-icon' + size);
+          const ctx = canvas.getContext('2d');
+          
+          // Clear for transparency
+          ctx.clearRect(0, 0, size, size);
+          
+          // Calculate perfectly centered icon dimensions
+          // SVG aspect ratio is 36x24 (1.5 width/height)
+          const w = size;
+          const h = size / 1.5;
+          const y = (size - h) / 2;
+          
+          ctx.drawImage(iconImg, 0, y, w, h);
+          
+          document.getElementById('dl-icon' + size).href = canvas.toDataURL('image/png');
+        });
+      };
+      iconImg.src = url;
+    }
+
+    function processScreenshot(canvasId, dlId, imagePath, bgColor) {
+      const canvas = document.getElementById(canvasId);
+      const ctx = canvas.getContext('2d');
+      
+      const img = new Image();
+      img.onload = function() {
+        // Draw background
+        ctx.fillStyle = bgColor;
+        ctx.fillRect(0, 0, 1280, 800);
+
+        // Calculate scaling to fit nicely within a max of 1000x700
+        const maxW = 1000;
+        const maxH = 700;
+        let scale = Math.min(maxW / img.width, maxH / img.height);
+        if (scale > 1) scale = 1; // don't scale up if smaller
+
+        const w = img.width * scale;
+        const h = img.height * scale;
+        const x = (1280 - w) / 2;
+        const y = (800 - h) / 2;
+
+        // Draw drop shadow
+        ctx.shadowColor = 'rgba(0, 0, 0, 0.15)';
+        ctx.shadowBlur = 30;
+        ctx.shadowOffsetX = 0;
+        ctx.shadowOffsetY = 15;
+
+        // Draw image (with rounded corners roughly, but standard draw is fine for screenshot)
+        ctx.drawImage(img, x, y, w, h);
+
+        // Link download
+        document.getElementById(dlId).href = canvas.toDataURL('image/png');
+      };
+      img.onerror = function() {
+        ctx.fillStyle = '#f87171';
+        ctx.fillRect(0, 0, 1280, 800);
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '30px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('Image not found: ' + imagePath, 640, 400);
+      };
+      img.src = imagePath;
+    }
+
+    // Run Generators
+    generateIcons();
+    generatePromoTile();
+    processScreenshot('canvas-popup', 'dl-popup', 'photos/popup.png', '#1e293b'); // Dark Slate
+    processScreenshot('canvas-manual', 'dl-manual', 'photos/manual.png', '#f1f5f9'); // Light Blue/Gray
+    processScreenshot('canvas-vault', 'dl-vault', 'photos/vault.png', '#f3e8ff'); // Light Purple
+    processScreenshot('canvas-autofill', 'dl-autofill', 'photos/auto-fill.png', '#ecfdf5'); // Light Emerald
+
+  </script>
+</body>
+</html>
