@@ -26,7 +26,7 @@ SmartFill is a powerful Chrome extension that instantly fills repetitive forms, 
 
 Upon installation, SmartFill will automatically open the **User Manual**. This built-in manual contains everything you need to know about setting up your API keys, configuring your profile, and using the Memory Vault. 
 
-You can also view the manual source code directly in this repository: [User Manual (manual.html)](./manual.html)
+You can also view the manual online here: [User Manual Website](https://htmlpreview.github.io/?https://github.com/Md-Abu-Zoha/SmartFill/blob/main/manual.html)
 
 You can access the manual at any time by right-clicking the extension icon and selecting **Options**.
 
