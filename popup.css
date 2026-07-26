@@ -78,11 +78,17 @@ header {
 .logo h1 {
   margin: 0;
   font-size: 20px;
-  font-weight: 600;
+  font-weight: 800;
   letter-spacing: -0.5px;
-  background: linear-gradient(to right, #0f172a, #475569);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+}
+
+.logo-form {
+  color: #0f172a;
+}
+
+.logo-pulse {
+  color: #4f46e5;
+  font-style: italic;
 }
 
 .badge {

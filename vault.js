@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!filteredEntries || filteredEntries.length === 0) {
       if (allEntries.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="3" class="empty-state">Your Memory Vault is empty. SmartFill will automatically learn as you fill forms.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="3" class="empty-state">Your Memory Vault is empty. FormPulse will automatically learn as you fill forms.</td></tr>`;
       } else {
         tbody.innerHTML = `<tr><td colspan="3" class="empty-state">No results found for "${query}"</td></tr>`;
       }

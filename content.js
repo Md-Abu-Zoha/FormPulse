@@ -1,12 +1,12 @@
 // =============================================================================
-//  SmartFill – content.js  (MV3 Content Script)
+//  FormPulse – content.js  (MV3 Content Script)
 // =============================================================================
 
 (() => {
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
 
-const TAG = "[SmartFill CS]";
+const TAG = "[FormPulse CS]";
 
 const ACTION = {
   FILL_FORM: "FILL_FORM",
@@ -17,31 +17,31 @@ const ACTION = {
 // Inject visual confidence markers for AI-filled vs TODO fields.
 (function injectStyles() {
   const style = document.createElement('style');
-  style.id = 'smartfill-styles';
+  style.id = 'formpulse-styles';
   style.textContent = `
-    .smartfill-ai {
+    .formpulse-ai {
       outline: 2px solid rgba(147, 51, 234, 0.6) !important;
       background-color: rgba(147, 51, 234, 0.07) !important;
       transition: outline 0.3s ease, background-color 0.3s ease;
     }
-    .smartfill-local {
+    .formpulse-local {
       outline: 2px solid rgba(34, 197, 94, 0.6) !important;
       background-color: rgba(34, 197, 94, 0.07) !important;
       transition: outline 0.3s ease, background-color 0.3s ease;
     }
-    .smartfill-marker {
+    .formpulse-marker {
       outline: 2px solid rgba(234, 179, 8, 0.8) !important;
       background-color: rgba(234, 179, 8, 0.12) !important;
       transition: outline 0.3s ease, background-color 0.3s ease;
     }
-    .smartfill-prefilled {
+    .formpulse-prefilled {
       outline: 2px dashed rgba(156, 163, 175, 0.8) !important;
       background-color: rgba(156, 163, 175, 0.05) !important;
       transition: outline 0.3s ease, background-color 0.3s ease;
     }
   `;
   const target = document.head || document.documentElement;
-  if (target && !document.getElementById('smartfill-styles')) {
+  if (target && !document.getElementById('formpulse-styles')) {
     target.appendChild(style);
   }
 })();
@@ -436,7 +436,7 @@ function scanForFields() {
       // We must strip the copied attributes and treat it as a brand new field.
       if (!descriptor || descriptor.element !== el) {
         el.removeAttribute(PROCESSED_ATTR);
-        el.classList.remove("smartfill-ai", "smartfill-local", "smartfill-marker");
+        el.classList.remove("formpulse-ai", "formpulse-local", "formpulse-marker");
         processElement(el);
         newCount++;
       }
@@ -457,10 +457,10 @@ function serializeFields(isAutoPilot = false) {
   for (const descriptor of fieldRegistry.values()) {
     const el = descriptor.element;
     
-    // Skip if SmartFill already filled this field
-    if (el.classList.contains("smartfill-ai") || 
-        el.classList.contains("smartfill-local") || 
-        el.classList.contains("smartfill-marker")) {
+    // Skip if FormPulse already filled this field
+    if (el.classList.contains("formpulse-ai") || 
+        el.classList.contains("formpulse-local") || 
+        el.classList.contains("formpulse-marker")) {
       continue;
     }
     
@@ -476,7 +476,7 @@ function serializeFields(isAutoPilot = false) {
 
     if (hasTextContent || hasInputValue) {
       descriptor.hasPreexistingValue = true;
-      el.classList.add("smartfill-prefilled");
+      el.classList.add("formpulse-prefilled");
       
       // AutoPilot must NEVER overwrite fields you are typing in
       if (isAutoPilot) {
@@ -539,7 +539,7 @@ function requestFillFromBackground(isAutoPilot = false) {
       if (!response.success) {
         log.error("SW returned error:", response.error);
         // Show error visually if we can
-        alert(`SmartFill Error: ${response.error}`);
+        alert(`FormPulse Error: ${response.error}`);
         return;
       }
 
@@ -888,10 +888,10 @@ async function applyFillSuggestions(suggestions) {
     }
 
     // Apply visual confidence CSS class. If it's overwriting a pre-filled field, it drops the dashed grey border.
-    el.classList.remove("smartfill-ai", "smartfill-local", "smartfill-marker", "smartfill-prefilled");
-    if (state === "LOCAL")  el.classList.add("smartfill-local");
-    else if (state === "MARKER") el.classList.add("smartfill-marker");
-    else                    el.classList.add("smartfill-ai");
+    el.classList.remove("formpulse-ai", "formpulse-local", "formpulse-marker", "formpulse-prefilled");
+    if (state === "LOCAL")  el.classList.add("formpulse-local");
+    else if (state === "MARKER") el.classList.add("formpulse-marker");
+    else                    el.classList.add("formpulse-ai");
 
     try {
       if (descriptor.isEditable) {
@@ -949,7 +949,7 @@ async function applyFillSuggestions(suggestions) {
               if (!hasMatch) {
                 log.warn(`Vault value "${value}" for <select> "${descriptor.label}" has no matching option — skipping Vault, deferring to AI.`);
                 // Remove the visual class so the field stays neutral for the AI to fill
-                el.classList.remove("smartfill-local");
+                el.classList.remove("formpulse-local");
                 skipped++;
                 continue;
               }

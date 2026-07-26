@@ -1,5 +1,5 @@
 // =============================================================================
-//  SmartFill – crypto-utils.js
+//  FormPulse – crypto-utils.js
 //  Web Crypto API utility for AES-GCM-256 encryption of API keys.
 //
 //  Security model:
@@ -21,7 +21,7 @@
 //    const key = await CryptoVault.loadApiKey();
 // =============================================================================
 
-const TAG_C = "[SmartFill Crypto]";
+const TAG_C = "[FormPulse Crypto]";
 
 const clog = {
   info:     (...a) => {},
@@ -49,7 +49,7 @@ const IV_BYTES   = 12;
 const SALT_BYTES = 16;
 
 /** chrome.storage.local key for persisted encrypted blobs. */
-const STORE_KEY_PREFIX = "smartfill_vault_";
+const STORE_KEY_PREFIX = "formpulse_vault_";
 
 /** Schema version – increment if the stored format changes. */
 const VAULT_VERSION = 1;

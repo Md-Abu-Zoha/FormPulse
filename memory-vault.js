@@ -1,5 +1,5 @@
 // =============================================================================
-//  SmartFill - memory-vault.js  (MV3 Service Worker Module)
+//  FormPulse - memory-vault.js  (MV3 Service Worker Module)
 //
 //  The Dynamic Memory Vault is a self-learning lookup table.
 //  It records what the user actually typed into each form field and uses that
@@ -7,7 +7,7 @@
 //
 //  Architecture: Layer 0 (Vault) - Layer 1 (LocalMemory rules) - Layer 2 (AI)
 //
-//  Storage format (chrome.storage.local key: "smartfill_memory_vault"):
+//  Storage format (chrome.storage.local key: "formpulse_memory_vault"):
 //  {
 //    "college state": {
 //      "West Bengal": { count: 5, lastSeen: 1721500000 }
@@ -21,7 +21,7 @@
 //  Full labels are kept intact so "College State" != "Home State".
 // =============================================================================
 
-const VAULT_STORE_KEY = "smartfill_memory_vault";
+const VAULT_STORE_KEY = "formpulse_memory_vault";
 const MAX_VALUES_PER_KEY = 10;
 const MAX_VAULT_KEYS = 500;
 const TOP_CONTEXT_COUNT = 10;

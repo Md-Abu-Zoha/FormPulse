@@ -5,31 +5,31 @@ document.addEventListener('DOMContentLoaded', async () => {
     groq: {
       label:       'API Key (starts with gsk_)',
       placeholder: 'gsk_xxxxxxxxxxxx',
-      hintText:    'Groq keys are created at console.groq.com.',
+      hintText:    'Groq keys are created at <a href="https://console.groq.com" target="_blank" style="color: inherit; text-decoration: underline;">console.groq.com</a>.',
       color:       '#34d399',
     },
     gemini: {
       label:       'API Key (starts with AQ. or AIza)',
       placeholder: 'AQ. or AIzaSy...',
-      hintText:    'Gemini keys are created at aistudio.google.com/app/apikey.',
+      hintText:    'Gemini keys are created at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: inherit; text-decoration: underline;">aistudio.google.com/app/apikey</a>.',
       color:       '#a78bfa',
     },
     deepseek: {
       label:       'API Key (starts with sk-)',
       placeholder: 'sk-xxxxxxxxxxxx',
-      hintText:    'DeepSeek keys are created at platform.deepseek.com.',
+      hintText:    'DeepSeek keys are created at <a href="https://platform.deepseek.com" target="_blank" style="color: inherit; text-decoration: underline;">platform.deepseek.com</a>.',
       color:       '#38bdf8',
     },
     kimi: {
       label:       'API Key (starts with sk-)',
       placeholder: 'sk-xxxxxxxxxxxx',
-      hintText:    'Kimi keys are created at platform.moonshot.cn.',
+      hintText:    'Kimi keys are created at <a href="https://platform.moonshot.cn" target="_blank" style="color: inherit; text-decoration: underline;">platform.moonshot.cn</a>.',
       color:       '#f472b6',
     },
   };
 
   // Storage key for which provider was last selected
-  const PROVIDER_STORE_KEY = 'smartfill_selected_provider';
+  const PROVIDER_STORE_KEY = 'formpulse_selected_provider';
 
   // ─── DOM REFERENCES ─────────────────────────────────────────────────────────
   const profileFields = {
@@ -115,7 +115,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   async function ensureContentScript(tab) {
     if (!isInjectableTab(tab)) {
-      throw new Error('Open a normal web page before using SmartFill.');
+      throw new Error('Open a normal web page before using FormPulse.');
     }
 
     // Always inject into all frames so embedded iframes (Greenhouse, Lever, etc.)
@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const meta = PROVIDER_META[providerKey] || PROVIDER_META.gemini;
     apiKeyLabel.textContent  = meta.label;
     apiKeyField.placeholder  = meta.placeholder;
-    apiKeyHint.textContent   = meta.hintText;
+    apiKeyHint.innerHTML     = meta.hintText;
   }
 
   // ─── LOAD SAVED STATE ─────────────────────────────────────────────────────
@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Check if a key is already stored (without exposing the actual key)
     chrome.storage.local.get(null, (allItems) => {
-      const hasKey = Object.keys(allItems).some(k => k.startsWith('smartfill_vault_'));
+      const hasKey = Object.keys(allItems).some(k => k.startsWith('formpulse_vault_'));
       if (hasKey) {
         apiKeyField.placeholder = '(Key saved — leave blank to keep it)';
       }

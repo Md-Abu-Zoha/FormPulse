@@ -36,9 +36,9 @@ body {
 
 .header-text h1 {
   font-size: 24px;
-  font-weight: 700;
-  color: #0f172a;
+  font-weight: 800;
   margin-bottom: 4px;
+  color: #0f172a;
 }
 
 .header-text p {

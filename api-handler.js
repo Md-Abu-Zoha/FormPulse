@@ -1,5 +1,5 @@
 // =============================================================================
-//  SmartFill – api-handler.js  (MV3 Service Worker Module)
+//  FormPulse – api-handler.js  (MV3 Service Worker Module)
 //
 //  Exports:
 //    • SecurityGate   — blacklists sensitive fields before any API call
@@ -8,7 +8,7 @@
 //    • LocalMemory    — instant pattern-matched fills from user profile
 // =============================================================================
 
-const TAG_A = "[SmartFill API]";
+const TAG_A = "[FormPulse API]";
 
 const alog = {
   info:     (...a) => {},
@@ -245,7 +245,7 @@ export const PayloadBuilder = Object.freeze({
       suggestions: fieldsTemplate 
     }, null, 2);
 
-    const systemInstruction = `You are SmartFill, an expert form-filling assistant.
+    const systemInstruction = `You are FormPulse, an expert form-filling assistant.
 
 USER PROFILE:
 ${profileSummary || "No profile data provided."}

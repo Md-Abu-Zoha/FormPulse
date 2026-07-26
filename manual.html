@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SmartFill — User Manual</title>
+  <title>FormPulse — User Manual</title>
   <link rel="icon" type="image/png" href="icons/icon128.png">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -68,8 +68,14 @@
     .hero-logo-text {
       font-size: 36px;
       font-weight: 800;
-      color: var(--text);
       letter-spacing: -1px;
+    }
+    .hero-logo-text .logo-form {
+      color: #0f172a;
+    }
+    .hero-logo-text .logo-pulse {
+      color: #4f46e5;
+      font-style: italic;
     }
     .hero-tag {
       display: inline-block;
@@ -478,11 +484,11 @@
         <line x1="22" y1="11" x2="24" y2="11" stroke="#0f172a" stroke-width="1.5" stroke-linecap="round"/>
         <text x="24" y="21.5" font-family="Arial, sans-serif" font-weight="800" font-size="7.5" fill="#64748b" letter-spacing="0.5" text-anchor="middle">OHA</text>
       </svg>
-      <span class="hero-logo-text">SmartFill</span>
+      <span class="hero-logo-text"><span class="logo-form">Form</span><span class="logo-pulse">Pulse</span></span>
     </div>
     <div class="hero-tag">User Manual v1.0.0</div>
     <h1>Everything you<br>need to know.</h1>
-    <p>A complete guide to every feature, button, and intelligent behavior inside SmartFill.</p>
+    <p>A complete guide to every feature, button, and intelligent behavior inside FormPulse.</p>
     <a href="https://forms.gle/kVYUG9AiRx4hNnFk6" target="_blank" class="hero-feedback-btn">
       💬 Share Feedback & Support
     </a>
@@ -507,8 +513,8 @@
 
     <!-- ═══ SECTION: OVERVIEW ═══════════════════════════════════════════════ -->
     <section class="section active" id="overview">
-      <h2 class="section-title">What is SmartFill?</h2>
-      <p class="section-subtitle">SmartFill is a browser extension that fills long, repetitive forms — job applications, registrations, portals — in seconds using a three-layer Hybrid Engine.</p>
+      <h2 class="section-title">What is FormPulse?</h2>
+      <p class="section-subtitle">FormPulse is a browser extension that fills long, repetitive forms — job applications, registrations, portals — in seconds using a three-layer Hybrid Engine.</p>
 
       <div class="card-grid three">
         <div class="card">
@@ -519,7 +525,7 @@
         <div class="card">
           <div class="card-icon" style="background: rgba(99,102,241,0.12);">🧠</div>
           <h3>Layer 2 — Memory Vault</h3>
-          <p>SmartFill remembers every unique answer you've typed into past forms and reuses them the next time a similar question appears.</p>
+          <p>FormPulse remembers every unique answer you've typed into past forms and reuses them the next time a similar question appears.</p>
         </div>
         <div class="card">
           <div class="card-icon" style="background: rgba(168,85,247,0.12);">✨</div>
@@ -530,11 +536,11 @@
 
       <div class="tip-box blue">
         <span class="tip-icon">ℹ️</span>
-        <div>SmartFill uses these three layers in order — Local first, then Vault, then AI. This means most fields on a typical form never need to make an API call at all, making SmartFill fast, private, and cost-effective.</div>
+        <div>FormPulse uses these three layers in order — Local first, then Vault, then AI. This means most fields on a typical form never need to make an API call at all, making FormPulse fast, private, and cost-effective.</div>
       </div>
 
       <div class="spacer"></div>
-      <h3 style="font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 20px;">What SmartFill can fill</h3>
+      <h3 style="font-size: 19px; font-weight: 700; color: var(--text); margin-bottom: 20px;">What FormPulse can fill</h3>
       <table class="data-table">
         <thead>
           <tr>
@@ -558,7 +564,7 @@
     <!-- ═══ SECTION: SETUP ═══════════════════════════════════════════════════ -->
     <section class="section" id="setup">
       <h2 class="section-title">First-Time Setup</h2>
-      <p class="section-subtitle">Get SmartFill ready in under 3 minutes. You only need to do this once.</p>
+      <p class="section-subtitle">Get FormPulse ready in under 3 minutes. You only need to do this once.</p>
 
       <div class="steps">
         <div class="step">
@@ -575,7 +581,7 @@
             <p>Visit your chosen provider's website, create a free API key, and paste it into the <strong>API Key</strong> field. Your key is securely encrypted directly on your device and is never transmitted to any server other than the AI provider you chose.</p>
             <div class="tip-box green" style="margin-top: 12px;">
               <span class="tip-icon">✅</span>
-              <div><strong>Groq Free Key:</strong> console.groq.com &nbsp;|&nbsp; <strong>Gemini Free Key:</strong> aistudio.google.com/app/apikey</div>
+              <div><strong>Groq Free Key:</strong> <a href="https://console.groq.com" target="_blank" style="color:var(--accent2); text-decoration:underline;">console.groq.com</a> &nbsp;|&nbsp; <strong>Gemini Free Key:</strong> <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--accent2); text-decoration:underline;">aistudio.google.com/app/apikey</a></div>
             </div>
           </div>
         </div>
@@ -590,7 +596,7 @@
           <div class="step-num">4</div>
           <div class="step-body">
             <h4>Write Your Professional Bio</h4>
-            <p>Open the <strong>Professional Bio</strong> section. Write a detailed paragraph about yourself — your college, degree, skills, tools, years of experience, and the type of work you do. The better this bio, the better every cover letter and essay SmartFill writes for you.</p>
+            <p>Open the <strong>Professional Bio</strong> section. Write a detailed paragraph about yourself — your college, degree, skills, tools, years of experience, and the type of work you do. The better this bio, the better every cover letter and essay FormPulse writes for you.</p>
             <div class="tip-box yellow" style="margin-top: 12px;">
               <span class="tip-icon">💡</span>
               <div>Be specific. Mention real skills ("MERN stack, n8n automation, Tailwind CSS"), not vague things ("I am a hardworking person").</div>
@@ -601,7 +607,7 @@
           <div class="step-num">5</div>
           <div class="step-body">
             <h4>Add Writing Samples (for Tone Matching)</h4>
-            <p>Open the <strong>Writing Examples</strong> section. Paste 2–3 excerpts from emails or short paragraphs you have previously written. SmartFill's AI analyzes these and mirrors your exact vocabulary, tone, and sentence structure when writing cover letters — so it sounds like you, not a robot.</p>
+            <p>Open the <strong>Writing Examples</strong> section. Paste 2–3 excerpts from emails or short paragraphs you have previously written. FormPulse's AI analyzes these and mirrors your exact vocabulary, tone, and sentence structure when writing cover letters — so it sounds like you, not a robot.</p>
           </div>
         </div>
         <div class="step">
@@ -617,28 +623,28 @@
     <!-- ═══ SECTION: FILLING ══════════════════════════════════════════════════ -->
     <section class="section" id="filling">
       <h2 class="section-title">Auto-Filling a Form</h2>
-      <p class="section-subtitle">How to use SmartFill on any form — job board, HR portal, registration page, or chatbot.</p>
+      <p class="section-subtitle">How to use FormPulse on any form — job board, HR portal, registration page, or chatbot.</p>
 
       <div class="steps">
         <div class="step">
           <div class="step-num">1</div>
           <div class="step-body">
             <h4>Navigate to the form page</h4>
-            <p>Go to any website with a form you want to fill. SmartFill works on standard HTML forms, React-powered forms, custom modals, and most multi-step application wizards.</p>
+            <p>Go to any website with a form you want to fill. FormPulse works on standard HTML forms, React-powered forms, custom modals, and most multi-step application wizards.</p>
           </div>
         </div>
         <div class="step">
           <div class="step-num">2</div>
           <div class="step-body">
-            <h4>Click the SmartFill icon</h4>
-            <p>Click the SmartFill extension icon in your Chrome toolbar to open the popup. Check that your profile is saved (you should see your name reflected in the fields).</p>
+            <h4>Click the FormPulse icon</h4>
+            <p>Click the FormPulse extension icon in your Chrome toolbar to open the popup. Check that your profile is saved (you should see your name reflected in the fields).</p>
           </div>
         </div>
         <div class="step">
           <div class="step-num">3</div>
           <div class="step-body">
             <h4>Press "Auto-Fill Page"</h4>
-            <p>Click the <strong>Auto-Fill Page</strong> button. SmartFill will scan the page, identify all fillable fields, and send them through the Hybrid Engine. Within a few seconds, the entire form will light up with colored borders showing what was filled and how.</p>
+            <p>Click the <strong>Auto-Fill Page</strong> button. FormPulse will scan the page, identify all fillable fields, and send them through the Hybrid Engine. Within a few seconds, the entire form will light up with colored borders showing what was filled and how.</p>
           </div>
         </div>
         <div class="step">
@@ -652,7 +658,7 @@
           <div class="step-num">5</div>
           <div class="step-body">
             <h4>Submit!</h4>
-            <p>After a quick review, submit the form. SmartFill will automatically record any new question-answer pairs into your Memory Vault so future forms fill even faster.</p>
+            <p>After a quick review, submit the form. FormPulse will automatically record any new question-answer pairs into your Memory Vault so future forms fill even faster.</p>
           </div>
         </div>
       </div>
@@ -691,7 +697,7 @@
     <!-- ═══ SECTION: INDICATORS ══════════════════════════════════════════════ -->
     <section class="section" id="indicators">
       <h2 class="section-title">Visual Indicators</h2>
-      <p class="section-subtitle">Every field SmartFill touches gets a colored border so you instantly understand how the value was generated.</p>
+      <p class="section-subtitle">Every field FormPulse touches gets a colored border so you instantly understand how the value was generated.</p>
 
       <div class="color-legend">
         <div class="legend-item">
@@ -727,7 +733,7 @@
           </div>
           <div class="legend-text">
             <strong>⬜ Dashed Grey — Pre-filled / Skipped</strong>
-            <p>This field had content in it before you clicked Auto-Fill. SmartFill skipped it to avoid overwriting your data. However, if you click Auto-Fill manually (not AutoPilot), SmartFill will overwrite grey fields if it has a 100% confident Green match available — replacing the grey border with green.</p>
+            <p>This field had content in it before you clicked Auto-Fill. FormPulse skipped it to avoid overwriting your data. However, if you click Auto-Fill manually (not AutoPilot), FormPulse will overwrite grey fields if it has a 100% confident Green match available — replacing the grey border with green.</p>
           </div>
         </div>
       </div>
@@ -740,18 +746,18 @@
     <!-- ═══ SECTION: AUTOPILOT ════════════════════════════════════════════════ -->
     <section class="section" id="autopilot">
       <h2 class="section-title">AutoPilot Mode</h2>
-      <p class="section-subtitle">Let SmartFill watch the page in the background and fill forms the moment they appear — no button clicks needed.</p>
+      <p class="section-subtitle">Let FormPulse watch the page in the background and fill forms the moment they appear — no button clicks needed.</p>
 
       <div class="card-grid">
         <div class="card">
           <div class="card-icon" style="background: rgba(16,185,129,0.12);">🟢</div>
           <h3>When AutoPilot is ON</h3>
-          <p>SmartFill continuously watches the page for changes. The moment a new field appears (e.g., you click "Apply Now" and a dialog pops up), it immediately fills the new fields. No button click needed.</p>
+          <p>FormPulse continuously watches the page for changes. The moment a new field appears (e.g., you click "Apply Now" and a dialog pops up), it immediately fills the new fields. No button click needed.</p>
         </div>
         <div class="card">
           <div class="card-icon" style="background: rgba(239,68,68,0.12);">🔴</div>
           <h3>When AutoPilot is OFF</h3>
-          <p>SmartFill does nothing passively. You are fully in control. Only when you explicitly click "Auto-Fill Page" does the extension interact with the form. This is the default mode.</p>
+          <p>FormPulse does nothing passively. You are fully in control. Only when you explicitly click "Auto-Fill Page" does the extension interact with the form. This is the default mode.</p>
         </div>
       </div>
 
@@ -775,7 +781,7 @@
           <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(245,158,11,0.12);">💬</div> Works with chatbot-style application forms</div>
           <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         </button>
-        <div class="accordion-body"><div class="accordion-body-inner">Some job portals use a conversational chat interface instead of a traditional form. SmartFill detects chat boxes and text inputs inside these chatbots and fills them. AutoPilot mode is especially useful here since new question inputs appear one at a time.</div></div>
+        <div class="accordion-body"><div class="accordion-body-inner">Some job portals use a conversational chat interface instead of a traditional form. FormPulse detects chat boxes and text inputs inside these chatbots and fills them. AutoPilot mode is especially useful here since new question inputs appear one at a time.</div></div>
       </div>
       <div class="accordion">
         <button class="accordion-btn">
@@ -789,13 +795,13 @@
     <!-- ═══ SECTION: VAULT ════════════════════════════════════════════════════ -->
     <section class="section" id="vault">
       <h2 class="section-title">Memory Vault</h2>
-      <p class="section-subtitle">SmartFill gets smarter every time you use it. The Memory Vault is a private, encrypted key-value store that learns from you.</p>
+      <p class="section-subtitle">FormPulse gets smarter every time you use it. The Memory Vault is a private, encrypted key-value store that learns from you.</p>
 
       <div class="card-grid">
         <div class="card">
           <div class="card-icon" style="background: rgba(99,102,241,0.12);">📝</div>
           <h3>How it learns</h3>
-          <p>After every successful AI fill, SmartFill records the pairing: the field's label and the AI's answer. The next time a field with a similar label appears on any website, the Vault match fires first — instantly, without calling the AI.</p>
+          <p>After every successful AI fill, FormPulse records the pairing: the field's label and the AI's answer. The next time a field with a similar label appears on any website, the Vault match fires first — instantly, without calling the AI.</p>
         </div>
         <div class="card">
           <div class="card-icon" style="background: rgba(16,185,129,0.12);">🔒</div>
@@ -817,7 +823,7 @@
           <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(239,68,68,0.12);">🚫</div> Sensitive fields are always blocked</div>
           <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         </button>
-        <div class="accordion-body"><div class="accordion-body-inner">Any field whose label contains keywords like <code>password</code>, <code>otp</code>, <code>cvv</code>, <code>secret</code>, or <code>biometric</code> is <strong>permanently blocked</strong> from being stored in the Vault. SmartFill will never learn or store your security credentials.</div></div>
+        <div class="accordion-body"><div class="accordion-body-inner">Any field whose label contains keywords like <code>password</code>, <code>otp</code>, <code>cvv</code>, <code>secret</code>, or <code>biometric</code> is <strong>permanently blocked</strong> from being stored in the Vault. FormPulse will never learn or store your security credentials.</div></div>
       </div>
       <div class="accordion">
         <button class="accordion-btn">
@@ -838,7 +844,7 @@
     <!-- ═══ SECTION: AI ═══════════════════════════════════════════════════════ -->
     <section class="section" id="ai">
       <h2 class="section-title">AI Engine & Tone Matching</h2>
-      <p class="section-subtitle">How SmartFill uses your bio and writing samples to generate highly personalized, professional answers.</p>
+      <p class="section-subtitle">How FormPulse uses your bio and writing samples to generate highly personalized, professional answers.</p>
 
       <div class="card-grid">
         <div class="card">
@@ -849,7 +855,7 @@
         <div class="card">
           <div class="card-icon" style="background: rgba(245,158,11,0.12);">🎭</div>
           <h3>Writing Samples = Your Voice</h3>
-          <p>The AI reads your samples and locks onto your writing style. If you write in short, punchy sentences, so will SmartFill. If you prefer formal academic language, the AI will match it precisely.</p>
+          <p>The AI reads your samples and locks onto your writing style. If you write in short, punchy sentences, so will FormPulse. If you prefer formal academic language, the AI will match it precisely.</p>
         </div>
       </div>
 
@@ -861,14 +867,14 @@
           <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(99,102,241,0.12);">🏢</div> It reads the correct company from the modal, not the page background</div>
           <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         </button>
-        <div class="accordion-body"><div class="accordion-body-inner">On job boards like LinkedIn or Internshala, there may be 20+ company names in the background. SmartFill's context scanner is strictly restricted to the active modal/dialog box you opened. It will only read the company name shown inside your application popup, never from the listing list behind it.</div></div>
+        <div class="accordion-body"><div class="accordion-body-inner">On job boards like LinkedIn or Internshala, there may be 20+ company names in the background. FormPulse's context scanner is strictly restricted to the active modal/dialog box you opened. It will only read the company name shown inside your application popup, never from the listing list behind it.</div></div>
       </div>
       <div class="accordion">
         <button class="accordion-btn">
           <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(16,185,129,0.12);">👔</div> Always formal and professional</div>
           <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         </button>
-        <div class="accordion-body"><div class="accordion-body-inner">SmartFill's AI is explicitly instructed to maintain a highly professional, polite, and formal tone at all times. It is prohibited from using casual phrases like "How are you doing?" or "Hope you're well". Every piece of writing focuses strictly on your skills, the role, and the company.</div></div>
+        <div class="accordion-body"><div class="accordion-body-inner">FormPulse's AI is explicitly instructed to maintain a highly professional, polite, and formal tone at all times. It is prohibited from using casual phrases like "How are you doing?" or "Hope you're well". Every piece of writing focuses strictly on your skills, the role, and the company.</div></div>
       </div>
       <div class="accordion">
         <button class="accordion-btn">
@@ -910,32 +916,32 @@
     <!-- ═══ SECTION: FAQ ═══════════════════════════════════════════════════════ -->
     <section class="section" id="faq">
       <h2 class="section-title">Frequently Asked Questions</h2>
-      <p class="section-subtitle">Answers to the most common questions about SmartFill's behavior.</p>
+      <p class="section-subtitle">Answers to the most common questions about FormPulse's behavior.</p>
 
       <div class="accordion">
         <button class="accordion-btn">
           <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(239,68,68,0.12);">❓</div> Why did the screen go blank after filling?</div>
           <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         </button>
-        <div class="accordion-body"><div class="accordion-body-inner">This is caused by React-based forms with strict input masks. SmartFill now uses a safe simulated paste method instead of forcing raw values, which allows the form's mask to process the input naturally without crashing. If this still happens, try refreshing the page and running Auto-Fill again.</div></div>
+        <div class="accordion-body"><div class="accordion-body-inner">This is caused by React-based forms with strict input masks. FormPulse now uses a safe simulated paste method instead of forcing raw values, which allows the form's mask to process the input naturally without crashing. If this still happens, try refreshing the page and running Auto-Fill again.</div></div>
       </div>
       <div class="accordion">
         <button class="accordion-btn">
           <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(245,158,11,0.12);">📅</div> Why is the Date of Birth filling incorrectly?</div>
           <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         </button>
-        <div class="accordion-body"><div class="accordion-body-inner">SmartFill reads the label and the field's placeholder text to detect the expected format. It defaults to <strong>DD/MM/YYYY</strong> for text inputs. For native <code>&lt;input type="date"&gt;</code> fields, it always uses <code>YYYY-MM-DD</code> which the browser then displays in your regional format. If your form expects MM/DD/YYYY, ensure the label or placeholder says so — SmartFill will detect it automatically.</div></div>
+        <div class="accordion-body"><div class="accordion-body-inner">FormPulse reads the label and the field's placeholder text to detect the expected format. It defaults to <strong>DD/MM/YYYY</strong> for text inputs. For native <code>&lt;input type="date"&gt;</code> fields, it always uses <code>YYYY-MM-DD</code> which the browser then displays in your regional format. If your form expects MM/DD/YYYY, ensure the label or placeholder says so — FormPulse will detect it automatically.</div></div>
       </div>
       <div class="accordion">
         <button class="accordion-btn">
           <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(99,102,241,0.12);">🏢</div> Why is it writing the wrong company name?</div>
           <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         </button>
-        <div class="accordion-body"><div class="accordion-body-inner">This happened when the context scanner was reading company names from the background listing page behind the modal. This has been fixed. SmartFill now restricts context scanning strictly to within the modal/dialog you are currently applying in, so it will only see the company name shown inside your application form.</div></div>
+        <div class="accordion-body"><div class="accordion-body-inner">This happened when the context scanner was reading company names from the background listing page behind the modal. This has been fixed. FormPulse now restricts context scanning strictly to within the modal/dialog you are currently applying in, so it will only see the company name shown inside your application form.</div></div>
       </div>
       <div class="accordion">
         <button class="accordion-btn">
-          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(16,185,129,0.12);">🔁</div> Can I use SmartFill without an internet connection?</div>
+          <div class="accordion-btn-label"><div class="acc-emoji" style="background:rgba(16,185,129,0.12);">🔁</div> Can I use FormPulse without an internet connection?</div>
           <div class="accordion-icon"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg></div>
         </button>
         <div class="accordion-body"><div class="accordion-body-inner">Partially. The Local Profile (Layer 1) and Memory Vault (Layer 2) work completely offline. Name, Email, Phone, DOB, ID documents, and all previously learned Q&amp;A pairs will fill instantly. Only the AI Layer (Layer 3 — cover letters, complex questions) requires an internet connection to call the AI provider's API.</div></div>
@@ -961,12 +967,12 @@
         </button>
         <div class="accordion-body"><div class="accordion-body-inner">
           This is a known limitation of the <strong>smart text matching</strong> used on dropdown (<code>&lt;select&gt;</code>) fields. Here is what happens and how to fix it:<br><br>
-          <strong>Why it happens:</strong> Different websites list countries, states, and disciplines in slightly different formats. When SmartFill tries to match "India" against a dropdown, it compares your saved value against all available options using a similarity score. If the dropdown loads slowly (especially in JavaScript-heavy portals like Workday or SAP), SmartFill may read an incomplete or partially-rendered options list and pick the closest wrong match — like "Iceland" or "Indiana" — because the full list wasn't available yet.<br><br>
+          <strong>Why it happens:</strong> Different websites list countries, states, and disciplines in slightly different formats. When FormPulse tries to match "India" against a dropdown, it compares your saved value against all available options using a similarity score. If the dropdown loads slowly (especially in JavaScript-heavy portals like Workday or SAP), FormPulse may read an incomplete or partially-rendered options list and pick the closest wrong match — like "Iceland" or "Indiana" — because the full list wasn't available yet.<br><br>
           <strong>Step-by-step fix:</strong><br>
-          1. <strong>Turn off AutoPilot</strong> — Open the SmartFill popup and toggle AutoPilot <em>off</em>. When AutoPilot is on, it fires immediately as elements appear on screen, often before the dropdown has finished loading all its options. Turning it off gives the page time to fully render.<br>
+          1. <strong>Turn off AutoPilot</strong> — Open the FormPulse popup and toggle AutoPilot <em>off</em>. When AutoPilot is on, it fires immediately as elements appear on screen, often before the dropdown has finished loading all its options. Turning it off gives the page time to fully render.<br>
           2. <strong>Wait for the page to fully load</strong> — Ensure the entire form and all its dropdowns are visually complete before proceeding.<br>
-          3. <strong>Click "Auto-Fill Page" manually</strong> — With AutoPilot off, press the button yourself. SmartFill will now scan a fully-rendered form and find the correct dropdown options.<br>
-          4. <strong>If still wrong</strong> — Manually select the correct value from the dropdown, then submit the form. SmartFill will now learn <em>not</em> to use the Vault for that dropdown (dropdown values are no longer saved to the Vault by design, so each fill will go through the AI which adapts to the live options).
+          3. <strong>Click "Auto-Fill Page" manually</strong> — With AutoPilot off, press the button yourself. FormPulse will now scan a fully-rendered form and find the correct dropdown options.<br>
+          4. <strong>If still wrong</strong> — Manually select the correct value from the dropdown, then submit the form. FormPulse will now learn <em>not</em> to use the Vault for that dropdown (dropdown values are no longer saved to the Vault by design, so each fill will go through the AI which adapts to the live options).
         </div></div>
       </div>
       <div class="accordion">
@@ -976,10 +982,10 @@
         </button>
         <div class="accordion-body"><div class="accordion-body-inner">
           If a specific dropdown (like Country, Location, or Discipline) consistently fills with the wrong value, a stale or incorrect entry may be sitting in your Memory Vault from a previous session. Here's how to clean it up:<br><br>
-          1. Open the SmartFill popup and click <strong>"Manage Vault Dashboard"</strong>.<br>
+          1. Open the FormPulse popup and click <strong>"Manage Vault Dashboard"</strong>.<br>
           2. Use the search bar to look for the field name (e.g., "location", "country", "discipline").<br>
           3. Find the entry with the wrong saved value and click the <strong>Delete</strong> button next to it.<br>
-          4. Close the Vault and go back to your form. SmartFill will now call the AI fresh for that field, which reads the actual live dropdown options and picks the correct one.<br><br>
+          4. Close the Vault and go back to your form. FormPulse will now call the AI fresh for that field, which reads the actual live dropdown options and picks the correct one.<br><br>
           <strong>Pro tip:</strong> Going forward, dropdown values from <code>&lt;select&gt;</code> elements are never saved to the Vault (by design), so this should only affect entries from older sessions. New fills will always be handled by the AI, which adapts to whatever options are present on the page.
         </div></div>
       </div>
@@ -997,7 +1003,7 @@
   </div><!-- /content -->
 
   <footer class="manual-footer">
-    Built with care by <span>ZOHA</span> &nbsp;·&nbsp; SmartFill v1.0.0 &nbsp;·&nbsp; <a href="https://docs.google.com/document/d/1G4RNyC-0VDr0v-hFDsOOQ46b5cwunBORM06TcaCY7hg/edit?usp=sharing" target="_blank" style="color:var(--text); text-decoration:underline;">Privacy Policy</a> &nbsp;·&nbsp; All data stored locally on your device.
+    Built with care by <span>ZOHA</span> &nbsp;·&nbsp; FormPulse v1.0.0 &nbsp;·&nbsp; <a href="https://docs.google.com/document/d/1G4RNyC-0VDr0v-hFDsOOQ46b5cwunBORM06TcaCY7hg/edit?usp=sharing" target="_blank" style="color:var(--text); text-decoration:underline;">Privacy Policy</a> &nbsp;·&nbsp; All data stored locally on your device.
   </footer>
 
   <script src="manual.js"></script>

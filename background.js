@@ -1,5 +1,5 @@
 // =============================================================================
-//  SmartFill – background.js  (MV3 Service Worker)
+//  FormPulse – background.js  (MV3 Service Worker)
 // =============================================================================
 
 import { CryptoVault } from './crypto-utils.js';
@@ -8,7 +8,7 @@ import { MemoryVault } from './memory-vault.js';
 
 // ─── CONSTANTS ───────────────────────────────────────────────────────────────
 
-const TAG = "[SmartFill SW]";
+const TAG = "[FormPulse SW]";
 
 const ACTION = {
   FILL_FORM:          "FILL_FORM",
@@ -27,9 +27,9 @@ const ACTION = {
 };
 
 const STORE = {
-  PROFILE: "smartfill_profile",
-  HISTORY: "smartfill_history",
-  SW_BOOT: "smartfill_sw_boot_count",
+  PROFILE: "formpulse_profile",
+  HISTORY: "formpulse_history",
+  SW_BOOT: "formpulse_sw_boot_count",
 };
 
 const MAX_HISTORY_ENTRIES = 50;
@@ -82,19 +82,19 @@ async function callFillAPI({ fields, url, userProfile, vaultContext = [] }) {
   log.group("callFillAPI");
 
   // Load the user's API key from the encrypted CryptoVault.
-  // Try "smartfill" vault first (new), then fall back to "gemini" (old) for backward compatibility.
-  let apiKey = await CryptoVault.loadApiKey("smartfill");
+  // Try "formpulse" vault first (new), then fall back to "gemini" (old) for backward compatibility.
+  let apiKey = await CryptoVault.loadApiKey("formpulse");
   if (!apiKey) apiKey = await CryptoVault.loadApiKey("gemini");
 
   if (!apiKey) {
     log.groupEnd();
     throw new Error(
-      "No API key found. Open the SmartFill popup and paste either: " +
+      "No API key found. Open the FormPulse popup and paste either: " +
       "a Gemini key (starts with AQ.) OR a free Groq key (starts with gsk_) from console.groq.com"
     );
   }
 
-  let provider = await storageGet('smartfill_selected_provider', null);
+  let provider = await storageGet('formpulse_selected_provider', null);
   let actualKey = apiKey.trim();
 
   // If we couldn't read from storage, fall back to auto-detect
@@ -155,7 +155,7 @@ async function handleFillForm(data) {
   if (!profile) {
     log.groupEnd();
     throw new Error(
-      "No profile found. Please open the SmartFill popup and save your information first."
+      "No profile found. Please open the FormPulse popup and save your information first."
     );
   }
 
@@ -246,9 +246,9 @@ async function handleSaveApiKey(data) {
   if (!apiKey || typeof apiKey !== "string" || apiKey.trim() === "") {
     throw new Error("API key must be a non-empty string.");
   }
-  // Save under a generic "smartfill" vault slot.
+  // Save under a generic "formpulse" vault slot.
   // The key string itself (e.g. "deepseek:sk-xxx" or "gsk_xxx") encodes which provider to use.
-  await CryptoVault.saveApiKey(apiKey.trim(), "smartfill");
+  await CryptoVault.saveApiKey(apiKey.trim(), "formpulse");
   log.info("API key saved to CryptoVault.");
   return { ok: true };
 }
@@ -426,8 +426,8 @@ chrome.runtime.onStartup.addListener(async () => {
     const profile = await storageGet(STORE.PROFILE, null);
     log.info(profile ? "Profile found in storage." : "No profile in storage yet.");
 
-    const hasKey = await CryptoVault.hasApiKey("smartfill");
-    log.info(hasKey ? "SmartFill API key is stored." : "⚠ No API key stored yet.");
+    const hasKey = await CryptoVault.hasApiKey("formpulse");
+    log.info(hasKey ? "FormPulse API key is stored." : "⚠ No API key stored yet.");
 
   } catch (err) {
     log.error("Bootstrap error:", err);

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>SmartFill Store Asset Generator</title>
+  <title>FormPulse Store Asset Generator</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -45,8 +45,9 @@
 </head>
 <body>
 
-  <h1>SmartFill Web Store Asset Generator</h1>
-  <p style="margin-bottom: 30px;">This tool instantly formats your raw screenshots into the exact sizes required by the Chrome Web Store. Click download on each to save them!</p>
+  <h1>FormPulse Web Store Asset Generator</h1>
+  <p style="margin-bottom: 20px;">Because of Chrome's security settings, local images cannot be downloaded directly. <strong>Please select your 4 screenshot images (popup.png, manual.png, vault.png, auto-fill.png) from the photos folder below</strong> to generate the store assets!</p>
+  <input type="file" id="fileUploader" multiple accept="image/*" style="margin-bottom: 30px; font-size: 16px;">
 
   <!-- ICONS (128, 48, 16) -->
   <div class="card">
@@ -150,16 +151,34 @@
       };
 
       function drawOverlayText() {
-        // Main Text (SmartFill)
-        ctx.fillStyle = '#ffffff';
+        // Main Text (FormPulse) split color
         ctx.font = 'bold 54px "Segoe UI", Arial, sans-serif';
-        ctx.textAlign = 'center';
+        const text1 = 'Form';
+        const text2 = 'Pulse';
         
-        // Drop shadow for main text
+        ctx.textAlign = 'left';
+        const w1 = ctx.measureText(text1).width;
+        
+        ctx.font = 'italic bold 54px "Segoe UI", Arial, sans-serif';
+        const w2 = ctx.measureText(text2).width;
+        
+        const totalW = w1 + w2;
+        const startX = (440 - totalW) / 2;
+        
+        // Shadow
         ctx.shadowColor = 'rgba(0,0,0,0.8)';
         ctx.shadowBlur = 12;
         ctx.shadowOffsetY = 4;
-        ctx.fillText('SmartFill', 220, 140);
+        
+        // Draw Form (White)
+        ctx.font = 'bold 54px "Segoe UI", Arial, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        ctx.fillText(text1, startX, 140);
+        
+        // Draw Pulse (Indigo)
+        ctx.font = 'italic bold 54px "Segoe UI", Arial, sans-serif';
+        ctx.fillStyle = '#818cf8';
+        ctx.fillText(text2, startX + w1, 140);
         
         // Reset shadow
         ctx.shadowColor = 'transparent';
@@ -260,14 +279,28 @@
       img.src = imagePath;
     }
 
-    // Run Generators
+    // Run initial Generators (Icons and Promo Tile don't need upload)
     generateIcons();
     generatePromoTile();
-    processScreenshot('canvas-popup', 'dl-popup', 'photos/popup.png', '#1e293b'); // Dark Slate
-    processScreenshot('canvas-manual', 'dl-manual', 'photos/manual.png', '#f1f5f9'); // Light Blue/Gray
-    processScreenshot('canvas-vault', 'dl-vault', 'photos/vault.png', '#f3e8ff'); // Light Purple
-    processScreenshot('canvas-autofill', 'dl-autofill', 'photos/auto-fill.png', '#ecfdf5'); // Light Emerald
-
+    
+    // Handle file uploads to bypass CORS
+    document.getElementById('fileUploader').addEventListener('change', function(e) {
+      const files = e.target.files;
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const url = URL.createObjectURL(file);
+        
+        if (file.name.includes('popup')) {
+          processScreenshot('canvas-popup', 'dl-popup', url, '#1e293b');
+        } else if (file.name.includes('manual')) {
+          processScreenshot('canvas-manual', 'dl-manual', url, '#f1f5f9');
+        } else if (file.name.includes('vault')) {
+          processScreenshot('canvas-vault', 'dl-vault', url, '#f3e8ff');
+        } else if (file.name.includes('auto-fill')) {
+          processScreenshot('canvas-autofill', 'dl-autofill', url, '#ecfdf5');
+        }
+      }
+    });
   </script>
 </body>
 </html>

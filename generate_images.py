@@ -61,7 +61,7 @@ for c in configs:
     bg.paste(img, (x, y), img)
     
     bg.save(out_path, format="PNG")
-    print(f"✅ Generated {out_path}")
+    print(f"Generated {out_path}")
 
 # --- Generate Promotional Tile (440x280) ---
 print("\nGenerating Promotional Tile...")
@@ -70,34 +70,38 @@ draw = ImageDraw.Draw(tile)
 
 try:
     font_large = ImageFont.truetype("arialbd.ttf", 46)
+    font_large_italic = ImageFont.truetype("ariali.ttf", 46)
     font_small = ImageFont.truetype("arial.ttf", 22)
 except IOError:
     font_large = ImageFont.load_default()
+    font_large_italic = font_large
     font_small = ImageFont.load_default()
 
-text = "SmartFill"
+part1 = "Form"
+part2 = "Pulse"
 sub = "AI Form Automation"
 
 # Calculate text width to center it
 try:
-    bbox_large = font_large.getbbox(text)
-    tw = bbox_large[2] - bbox_large[0]
+    tw1 = font_large.getbbox(part1)[2] - font_large.getbbox(part1)[0]
+    tw2 = font_large_italic.getbbox(part2)[2] - font_large_italic.getbbox(part2)[0]
+    sw = font_small.getbbox(sub)[2] - font_small.getbbox(sub)[0]
 except AttributeError:
     # Fallback for older PIL
-    tw, _ = draw.textsize(text, font=font_large)
-
-try:
-    bbox_small = font_small.getbbox(sub)
-    sw = bbox_small[2] - bbox_small[0]
-except AttributeError:
+    tw1, _ = draw.textsize(part1, font=font_large)
+    tw2, _ = draw.textsize(part2, font=font_large_italic)
     sw, _ = draw.textsize(sub, font=font_small)
 
 # Draw text centered
-draw.text(((440 - tw)//2, 100), text, fill="#ffffff", font=font_large)
+total_w = tw1 + tw2
+start_x = (440 - total_w) // 2
+
+draw.text((start_x, 100), part1, fill="#ffffff", font=font_large)
+draw.text((start_x + tw1, 100), part2, fill="#818cf8", font=font_large_italic)
 draw.text(((440 - sw)//2, 160), sub, fill="#94a3b8", font=font_small)
 
-tile_path = os.path.join(output_dir, "promo_tile.png")
+tile_path = os.path.join(input_dir, "Promo_Tile_440x280.png")
 tile.save(tile_path, format="PNG")
-print(f"✅ Generated {tile_path}")
+print(f"Generated {tile_path}")
 
-print("\n🎉 All store assets created successfully in the 'store_assets' folder!")
+print("\nAll store assets created successfully in the 'store_assets' folder!")
