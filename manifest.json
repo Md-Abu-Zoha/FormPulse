@@ -3,6 +3,7 @@
   "name": "SmartFill - AI Form Filler",
   "version": "1.0.0",
   "description": "AI-powered form filler that auto-fills job applications with your profile, Memory Vault, and writing style — in seconds.",
+  "author": "Md Abu Zoha",
 
   "background": {
     "service_worker": "background.js",
