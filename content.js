@@ -39,12 +39,56 @@ const ACTION = {
       background-color: rgba(156, 163, 175, 0.05) !important;
       transition: outline 0.3s ease, background-color 0.3s ease;
     }
+    .formpulse-toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      background: #1e293b;
+      color: #fff;
+      border-left: 4px solid #ef4444;
+      border-radius: 8px;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      font-family: system-ui, -apple-system, sans-serif;
+      font-size: 14px;
+      z-index: 2147483647;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      pointer-events: none;
+      max-width: 400px;
+      line-height: 1.5;
+    }
+    .formpulse-toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
   `;
   const target = document.head || document.documentElement;
   if (target && !document.getElementById('formpulse-styles')) {
     target.appendChild(style);
   }
 })();
+
+function showToast(message, type = "error") {
+  const toast = document.createElement("div");
+  toast.className = "formpulse-toast";
+  if (type === "warning") toast.style.borderLeftColor = "#f59e0b";
+  if (type === "info") toast.style.borderLeftColor = "#3b82f6";
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  
+  // Trigger animation
+  requestAnimationFrame(() => {
+    // slight delay ensures the transition works when added to DOM
+    setTimeout(() => toast.classList.add("show"), 10);
+  });
+  
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 5000);
+}
 
 // ─── FIELD SELECTOR ──────────────────────────────────────────────────────────
 
@@ -324,9 +368,36 @@ function extractSelectOptions(el) {
   return `[Options: ${sample.join(", ")}${suffix}]`;
 }
 
+function isElementCaptcha(el) {
+  const checkStr = (str) => {
+    if (!str || typeof str !== 'string') return false;
+    str = str.toLowerCase();
+    return str.includes("captcha") || str.includes("recaptcha") || str.includes("hcaptcha") || str.includes("turnstile");
+  };
+
+  if (checkStr(el.id) || checkStr(el.className) || checkStr(el.getAttribute("name"))) {
+    return true;
+  }
+
+  let node = el.parentElement;
+  for (let depth = 0; node && node !== document.body && depth < 5; depth++, node = node.parentElement) {
+    if (checkStr(node.id) || checkStr(node.className)) {
+      return true;
+    }
+  }
+  
+  // Skip inputs inside iframes (as most captchas are iframe-based) if they don't have clear labels
+  if (window.self !== window.top) {
+    if (checkStr(window.name) || checkStr(document.title)) return true;
+  }
+
+  return false;
+}
+
 function processElement(el) {
   if (el.hasAttribute(PROCESSED_ATTR)) return;
   if (!isElementVisible(el)) return;
+  if (isElementCaptcha(el)) return;
 
   let label   = extractLabel(el);
   let context = extractPrecedingContext(el);
@@ -538,8 +609,17 @@ function requestFillFromBackground(isAutoPilot = false) {
 
       if (!response.success) {
         log.error("SW returned error:", response.error);
-        // Show error visually if we can
-        alert(`FormPulse Error: ${response.error}`);
+        
+        const err = response.error || "";
+        if (err.includes("429")) {
+          showToast("Rate Limit Exceeded. You're moving too fast! Wait a few seconds before auto-filling again.", "warning");
+        } else if (err.includes("401") || err.includes("403") || err.includes("API key not valid")) {
+          showToast("Invalid API Key. Please open the FormPulse popup and verify your API key.", "error");
+        } else if (err.includes("503") || err.includes("529") || err.includes("500")) {
+          showToast("The AI provider's servers are currently overloaded. Please try again in a moment.", "warning");
+        } else {
+          showToast(`FormPulse Error: ${err}`, "error");
+        }
         return;
       }
 
