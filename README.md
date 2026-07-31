@@ -1,4 +1,4 @@
-# FormPulse - AI Form Filler
+# FormPulse - Smart Autofill
 
 ![FormPulse Promo](photos/Promo_Tile_440x280.png)
 
@@ -17,7 +17,7 @@ FormPulse is a powerful Chrome extension that instantly fills repetitive forms, 
 
 ## Installation
 
-1. Download the latest `FormPulse v1.0.0.zip` release from the Releases tab.
+1. Download the latest `FormPulse_v1.1.1.zip` release from the Releases tab.
 2. Open Chrome and navigate to `chrome://extensions`.
 3. Enable **Developer mode** in the top right corner.
 4. Drag and drop the `.zip` file onto the page, or extract it and click **Load unpacked**.
