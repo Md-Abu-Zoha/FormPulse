@@ -1,15 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "FormPulse - AI Form Filler",
-  "version": "1.1.0",
+  "name": "FormPulse - Smart Autofill",
+  "version": "1.2.0",
   "description": "AI-powered form filler that auto-fills job applications with your profile, Memory Vault, and writing style — in seconds.",
   "author": "Md Abu Zoha",
-
   "background": {
     "service_worker": "background.js",
     "type": "module"
   },
-
   "action": {
     "default_popup": "popup.html",
     "default_icon": {
@@ -18,36 +16,39 @@
       "128": "icons/icon128.png"
     }
   },
-
   "permissions": [
     "storage",
     "scripting",
     "activeTab",
     "tabs"
   ],
-
-
   "host_permissions": [
     "https://generativelanguage.googleapis.com/*",
     "https://api.groq.com/*",
     "https://api.deepseek.com/*",
     "https://api.moonshot.cn/*"
   ],
-
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
-
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; connect-src https://generativelanguage.googleapis.com https://api.groq.com https://api.deepseek.com https://api.moonshot.cn"
   },
-
-  "web_accessible_resources": [{
-    "resources": ["manual.html", "manual.js", "vault.html", "vault.css", "vault.js"],
-    "matches": ["<all_urls>"]
-  }],
-
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "manual.html",
+        "manual.js",
+        "vault.html",
+        "vault.css",
+        "vault.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ],
   "minimum_chrome_version": "116"
 }
